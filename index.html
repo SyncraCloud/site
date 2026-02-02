@@ -1,0 +1,690 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+     <meta charset="UTF-8">
+     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+     <title>Syncra AI Neo Cloud | Predictable Construction Logistics</title>
+     <!-- Tailwind CSS CDN -->
+     <script src="https://cdn.tailwindcss.com"></script>
+     <!-- Chart.js CDN -->
+     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+     <!-- Google Fonts -->
+     <link
+href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700;800&display=swap" 
+rel="stylesheet">
+     <!-- Font Awesome -->
+     <link rel="stylesheet" 
+href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+
+     <style>
+         body { font-family: 'Inter', sans-serif; scroll-behavior: 
+smooth; }
+
+         /* Chart Containers */
+         .chart-container {
+             position: relative;
+             width: 100%;
+             max-width: 600px;
+             margin-left: auto;
+             margin-right: auto;
+             height: 300px;
+             max-height: 400px;
+         }
+
+         /* Simulation Canvas Styles */
+         #technology-canvas {
+             background: #0f172a;
+             border-radius: 1.5rem;
+             cursor: pointer;
+             box-shadow: inset 0 2px 20px rgba(0,0,0,0.6);
+         }
+
+         /* Animations */
+         .fade-in { animation: fadeIn 0.8s ease-out; }
+         @keyframes fadeIn {
+             from { opacity: 0; transform: translateY(20px); }
+             to { opacity: 1; transform: translateY(0); }
+         }
+
+         /* Hero Section Styling */
+         .hero-section {
+             position: relative;
+             height: 100vh;
+             min-height: 800px;
+             overflow: hidden;
+             background-color: #1a0a2e; /* Deep Purple Dark */
+             display: flex;
+             align-items: center;
+             justify-content: center;
+         }
+
+         /* Canvas for Header Particles */
+         #hero-particles {
+             position: absolute;
+             top: 0;
+             left: 0;
+             width: 100%;
+             height: 100%;
+             z-index: 0;
+         }
+
+         .hero-overlay {
+             position: absolute;
+             inset: 0;
+             background: radial-gradient(circle at center, rgba(147, 51, 234, 0.1) 0%, rgba(26, 10, 46, 0.8) 80%);
+             z-index: 1;
+             pointer-events: none;
+         }
+
+         .hero-content {
+             position: relative;
+             z-index: 10;
+         }
+
+         .feature-card:hover {
+             transform: translateY(-5px);
+             transition: transform 0.3s ease;
+         }
+
+         /* Purple range slider customization */
+         input[type=range].accent-purple-600::-webkit-slider-thumb {
+             background: #9333ea;
+         }
+     </style>
+</head>
+<body class="bg-stone-50 text-slate-900 overflow-x-hidden">
+
+     <!-- Navigation -->
+     <nav class="fixed top-0 w-full bg-white/95 backdrop-blur-md z-50 border-b border-stone-200 shadow-sm">
+         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+             <div class="flex justify-between h-20 items-center">
+                 <div class="flex items-center">
+                     <!-- Logo -->
+                     <div id="nav-logo" class="flex items-center
+space-x-3 group cursor-pointer">
+                         <svg width="42" height="42" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
+                             <rect width="100" height="100" rx="20" 
+fill="#9333ea"/>
+                             <path d="M30 70L50 30L70 70" stroke="white" 
+stroke-width="8" stroke-linecap="round" stroke-linejoin="round"/>
+                             <circle cx="50" cy="50" r="12" fill="white" 
+fill-opacity="0.25"/>
+                         </svg>
+                         <span class="text-2xl font-black tracking-tighter text-purple-900 italic">SYNCRA <span
+class="text-purple-600 font-normal not-italic">AI</span></span>
+                     </div>
+                 </div>
+                 <!-- Desktop Menu -->
+                 <div class="hidden lg:flex space-x-10 text-sm font-bold
+text-slate-500 uppercase tracking-widest">
+                     <a href="#challenges" class="hover:text-purple-600 transition-colors">Problem</a>
+                     <a href="#technology" class="hover:text-purple-600 transition-colors">Technology</a>
+                     <a href="#features" class="hover:text-purple-600 transition-colors">Features</a>
+                     <a href="#roi" class="hover:text-purple-600 transition-colors">ROI</a>
+                 </div>
+                 <!-- CTA Button -->
+                 <div class="flex items-center space-x-4">
+                     <span class="hidden md:block text-xs font-mono text-slate-400">www.syncracloud.com</span>
+                     <button id="nav-cta-btn" class="bg-purple-600 text-white px-6 py-2.5 rounded-full text-sm font-bold
+hover:bg-purple-700 transition-all shadow-lg shadow-purple-200 active:scale-95">
+                         Get a Demo
+                     </button>
+                 </div>
+             </div>
+         </div>
+     </nav>
+
+     <!-- Hero Section with Particles -->
+     <header class="hero-section">
+         <!-- Interactive Particle Canvas -->
+         <canvas id="hero-particles"></canvas>
+         <div class="hero-overlay"></div>
+
+         <div class="max-w-6xl mx-auto text-center hero-content px-4 mt-20">
+             <div class="inline-block px-4 py-1.5 mb-6 bg-purple-600 text-white rounded-full text-xs font-bold uppercase tracking-widest shadow-xl animate-pulse">
+                 AI-Driven Supply Chain Orchestration
+             </div>
+
+             <h1 class="text-5xl md:text-7xl font-black tracking-tight text-white mb-8 fade-in leading-tight">
+                 SYNCHRONIZE THE <span class="text-transparent bg-clip-text bg-gradient-to-r from-purple-400 to-purple-200">UNSEEN.</span><br>
+                 BUILD THE IMPOSSIBLE.
+             </h1>
+
+             <p class="text-xl md:text-2xl text-slate-300 mb-12 max-w-3xl mx-auto leading-relaxed fade-in font-light" style="animation-delay: 
+0.1s">
+                 Move from chaos to pure knowledge. Syncra AI Neo Cloud unifies your field force and global supply chain into a single, self-orchestrating intelligence.
+             </p>
+
+             <div class="flex flex-col sm:flex-row justify-center
+space-y-4 sm:space-y-0 sm:space-x-6 fade-in" style="animation-delay: 
+0.2s">
+                 <button id="hero-watch-btn" class="bg-purple-600 text-white px-10 py-5 rounded-2xl font-bold hover:bg-purple-700 transition-all flex items-center justify-center text-lg shadow-2xl
+shadow-purple-500/40 border border-purple-500">
+                     Watch it work <i class="fa-solid fa-play ml-3 text-xs"></i>
+                 </button>
+                 <a href="#roi" class="bg-slate-800/50 backdrop-blur-md border border-purple-500/30 text-white px-10 py-5 rounded-2xl font-bold
+hover:bg-purple-900/30 transition-all flex items-center justify-center text-lg hover:border-purple-400">
+                     Calculate ROI <i class="fa-solid fa-chart-line ml-3 text-xs"></i>
+                 </a>
+             </div>
+         </div>
+
+         <div class="absolute bottom-10 left-1/2 transform
+-translate-x-1/2 z-20 animate-bounce">
+             <a href="#challenges" class="text-white/60
+hover:text-purple-400 transition-colors">
+                 <i class="fa-solid fa-chevron-down text-3xl"></i>
+             </a>
+         </div>
+     </header>
+
+     <!-- Challenges Section -->
+     <section id="challenges" class="py-32 px-4 bg-white">
+         <div class="max-w-7xl mx-auto">
+             <div class="flex flex-col lg:flex-row gap-20 items-center">
+                 <div class="lg:w-1/2">
+                     <h2 class="text-4xl md:text-5xl font-black mb-8 leading-tight text-purple-900">The €1 Billion<br><span class="text-red-500">Construction Crisis</span></h2>
+                     <p class="text-xl text-slate-600 mb-10">Inefficiency is built into current methods. We have quantified the cost based on industry data.</p>
+                     <div class="space-y-8">
+                         <div class="flex items-center space-x-6 p-6
+bg-stone-50 rounded-2xl border border-stone-100">
+                             <span class="text-4xl font-black text-red-500">30%</span>
+                             <p class="text-slate-600 font-medium leading-snug">of total project costs are lost to <strong>inefficient logistics</strong>.</p>
+                         </div>
+                         <div class="flex items-center space-x-6 p-6
+bg-stone-50 rounded-2xl border border-stone-100">
+                             <span class="text-4xl font-black text-orange-500">20%</span>
+                             <p class="text-slate-600 font-medium leading-snug">of materials arrive <strong>late or incorrectly</strong>.</p>
+                         </div>
+                         <div class="flex items-center space-x-6 p-6
+bg-stone-50 rounded-2xl border border-stone-100">
+                             <span class="text-4xl font-black text-yellow-500">20%</span>
+                             <p class="text-slate-600 font-medium leading-snug">of labor time is wasted <strong>waiting for materials</strong>.</p>
+                         </div>
+                     </div>
+                 </div>
+                 <div class="lg:w-1/2 grid grid-cols-1 md:grid-cols-2
+gap-8 text-center">
+                     <div class="bg-stone-50 p-6 rounded-3xl border border-stone-100">
+                         <p class="text-xs font-bold uppercase
+text-slate-400 mb-4">Logistics Waste</p>
+                         <div class="chart-container"><canvas id="costChart"></canvas></div>
+                     </div>
+                     <div class="bg-stone-50 p-6 rounded-3xl border border-stone-100">
+                         <p class="text-xs font-bold uppercase
+text-slate-400 mb-4">Material Delays</p>
+                         <div class="chart-container"><canvas id="materialChart"></canvas></div>
+                     </div>
+                     <div class="bg-stone-50 p-6 rounded-3xl border
+border-stone-100 md:col-span-2">
+                         <p class="text-xs font-bold uppercase
+text-slate-400 mb-4">Labor Idle Time</p>
+                         <div class="chart-container"><canvas id="timeChart"></canvas></div>
+                     </div>
+                 </div>
+             </div>
+         </div>
+     </section>
+
+     <!-- Technology Section (Heart Simulation) -->
+     <section id="technology" class="py-32 px-4 bg-slate-900 text-white overflow-hidden scroll-mt-20">
+         <div class="max-w-7xl mx-auto">
+             <div class="grid lg:grid-cols-2 gap-20 items-center">
+                 <div>
+                     <h2 class="text-4xl md:text-6xl font-black mb-10 leading-tight">From Chaos to<br><span class="text-purple-400">Pure Knowledge</span></h2>
+                     <p class="text-xl text-slate-400 mb-12 leading-relaxed">
+                         Syncra AI Neo Cloud unifies field data with predictive orchestration. Move from reactive firefighting to a streamlined digital supply chain.
+                     </p>
+                     <div class="space-y-12">
+                         <div class="flex items-start space-x-6 group">
+                             <div class="bg-purple-500/10 p-4 rounded-2xl border border-purple-500/20 group-hover:bg-purple-500/20 transition-all">
+                                 <i class="fa-solid fa-brain
+text-purple-400 text-2xl"></i>
+                             </div>
+                             <div>
+                                 <h4 class="font-black text-xl mb-2 italic uppercase text-purple-200">Predictive Orchestration</h4>
+                                 <p class="text-slate-500">Proactive analytics that warn of risks before they disrupt the site.</p>
+                             </div>
+                         </div>
+                         <div class="flex items-start space-x-6 group">
+                             <div class="bg-purple-500/10 p-4 rounded-2xl border border-purple-500/20 group-hover:bg-purple-500/20 transition-all">
+                                 <i class="fa-solid fa-satellite-dish
+text-purple-400 text-2xl"></i>
+                             </div>
+                             <div>
+                                 <h4 class="font-black text-xl mb-2 italic uppercase text-purple-200">Real-Time Tracking</h4>
+                                 <p class="text-slate-500">IoT-based tracking of materials and equipment from order to installation.</p>
+                             </div>
+                         </div>
+                     </div>
+                     <button id="sim-btn" class="mt-16 bg-purple-600 text-white px-10 py-5 rounded-2xl font-black hover:bg-purple-700 transition-all flex items-center shadow-2xl shadow-purple-500/20 text-lg uppercase tracking-tighter">
+                         Activate Orchestration <i class="fa-solid fa-bolt-lightning ml-3"></i>
+                     </button>
+                 </div>
+
+                 <div class="relative">
+                     <!-- Changed ID to avoid conflict with Header Canvas 
+-->
+                     <canvas id="technology-canvas" class="w-full aspect-square border-4 border-slate-800"></canvas>
+                     <div class="absolute -bottom-6 -left-6 bg-slate-800
+px-6 py-4 rounded-2xl border border-slate-700 shadow-2xl">
+                         <p class="text-xs font-mono uppercase tracking-widest text-purple-400 mb-1">Engine Status</p>
+                         <p id="sim-status" class="text-xl font-black italic">CHAOTIC FLOW</p>
+                     </div>
+                 </div>
+             </div>
+         </div>
+     </section>
+
+     <!-- Advanced Features Section -->
+     <section id="features" class="py-32 px-4 bg-stone-100">
+         <div class="max-w-7xl mx-auto">
+             <div class="text-center mb-20">
+                 <h2 class="text-5xl font-black mb-6 text-purple-900">Advanced Capabilities</h2>
+                 <p class="text-xl text-slate-500">Built for modern construction demands.</p>
+             </div>
+
+             <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                 <div class="feature-card bg-white p-10 rounded-[2.5rem] shadow-sm border border-stone-200">
+                     <i class="fa-solid fa-file-invoice text-4xl
+text-purple-600 mb-8"></i>
+                     <h3 class="text-2xl font-black mb-4 text-purple-900">Automated Planning</h3>
+                     <p class="text-slate-500 leading-relaxed">Blueprints transform into project plans instantly. Manual planning is now obsolete.</p>
+                 </div>
+                 <div class="feature-card bg-white p-10 rounded-[2.5rem] shadow-sm border border-stone-200">
+                     <i class="fa-solid fa-leaf text-4xl text-purple-600 mb-8"></i>
+                     <h3 class="text-2xl font-black mb-4 text-purple-900">ESG & Carbon Footprint</h3>
+                     <p class="text-slate-500 leading-relaxed">Built-in
+CO2 calculator and reporting. Real-time sustainability metrics.</p>
+                 </div>
+                 <div class="feature-card bg-white p-10 rounded-[2.5rem] shadow-sm border border-stone-200">
+                     <i class="fa-solid fa-triangle-exclamation text-4xl
+text-purple-600 mb-8"></i>
+                     <h3 class="text-2xl font-black mb-4 text-purple-900">Risk Alerts</h3>
+                     <p class="text-slate-500 leading-relaxed">AI agents automatically identify schedule delays and overlaps.</p>
+                 </div>
+             </div>
+         </div>
+     </section>
+
+     <!-- ROI Estimator -->
+     <section id="roi" class="py-32 px-4 bg-stone-50 scroll-mt-20">
+         <div class="max-w-4xl mx-auto bg-white rounded-[3.5rem] p-12
+md:p-20 shadow-2xl border border-stone-200">
+             <div class="text-center mb-16">
+                 <h2 class="text-4xl font-black mb-6 text-purple-900">Efficiency Savings Estimator</h2>
+                 <p class="text-slate-500">Visualize the potential impact on your project budget.</p>
+             </div>
+
+             <div class="grid grid-cols-1 md:grid-cols-2 gap-20 items-center">
+                 <div class="space-y-12">
+                     <div>
+                         <label class="block text-xs font-black
+text-slate-400 uppercase tracking-[0.2em] mb-6">Total Project Budget (€M)</label>
+                         <input type="range" id="roi-slider" min="5" 
+max="500" value="100" class="w-full h-3 bg-stone-100 rounded-full appearance-none cursor-pointer accent-purple-600">
+                         <div class="flex justify-between mt-6">
+                             <span class="text-4xl font-black text-slate-900">€<span id="roi-value-display">100</span></span>
+                             <span class="text-4xl font-black
+text-slate-300 uppercase tracking-tighter">Million</span>
+                         </div>
+                     </div>
+
+                     <div class="space-y-4">
+                         <div class="bg-purple-600 p-6 rounded-3xl text-white shadow-xl shadow-purple-200">
+                             <p class="text-xs font-bold uppercase tracking-widest opacity-80 mb-2">Estimated Savings</p>
+                             <p class="text-3xl font-black">€<span id="saving-display">6.0</span>M</p>
+                         </div>
+                         <div class="flex gap-4">
+                             <div class="flex-1 bg-purple-50 p-6 rounded-3xl text-purple-900 border border-purple-100">
+                                 <p class="text-[10px] font-bold uppercase mb-1">Reduced Delays</p>
+                                 <p class="text-xl font-black">-40%</p>
+                             </div>
+                             <div class="flex-1 bg-purple-50 p-6 rounded-3xl text-purple-900 border border-purple-100">
+                                 <p class="text-[10px] font-bold uppercase mb-1">CO2 Impact</p>
+                                 <p class="text-xl font-black">-30%</p>
+                             </div>
+                         </div>
+                     </div>
+                 </div>
+
+                 <div class="chart-container">
+                     <canvas id="roiChart"></canvas>
+                 </div>
+             </div>
+         </div>
+     </section>
+
+     <!-- Footer -->
+     <footer id="contact" class="py-32 px-4 bg-white text-center">
+         <div class="max-w-4xl mx-auto">
+             <h2 class="text-5xl md:text-7xl font-black mb-10 tracking-tighter">Stop guessing.<br><span class="text-purple-600 italic underline decoration-purple-200">Start orchestrating.</span></h2>
+             <div class="flex flex-col items-center space-y-8">
+                 <button id="footer-demo-btn" class="bg-purple-600 text-white px-12 py-6 rounded-3xl font-black text-xl hover:bg-purple-700 transition-all shadow-2xl shadow-purple-200 active:scale-95">
+                     Request Platform Demo
+                 </button>
+                 <div class="pt-12 flex flex-col items-center">
+                     <p class="text-sm font-bold text-slate-400 uppercase tracking-widest mb-2 text-purple-900">Platform Hub</p>
+                     <a href="https://www.syncracloud.com" 
+class="text-2xl font-black text-slate-900 hover:text-purple-600 transition-colors">www.syncracloud.com</a>
+                 </div>
+             </div>
+
+             <div class="mt-32 pt-12 border-t border-stone-100 text-xs
+text-slate-400 font-bold uppercase tracking-widest">
+                 &copy; 2026 Syncra AI Neo Cloud. All rights reserved.
+             </div>
+         </div>
+     </footer>
+
+     <!-- JavaScript Logic -->
+     <script>
+         // Set up event listeners (Separation of HTML and Logic)
+         document.addEventListener('DOMContentLoaded', () => {
+             // Navigation
+             const navLogo = document.getElementById('nav-logo');
+             if(navLogo) navLogo.addEventListener('click', () => window.scrollTo(0,0));
+
+             const navCtaBtn = document.getElementById('nav-cta-btn');
+             if(navCtaBtn) navCtaBtn.addEventListener('click', () => document.getElementById('contact').scrollIntoView());
+
+             const heroWatchBtn =
+document.getElementById('hero-watch-btn');
+             if(heroWatchBtn) heroWatchBtn.addEventListener('click', () => document.getElementById('technology').scrollIntoView());
+
+              const footerDemoBtn =
+document.getElementById('footer-demo-btn');
+             if(footerDemoBtn) footerDemoBtn.addEventListener('click', () => document.getElementById('contact').scrollIntoView());
+
+
+             // --- 1. DATA & CHARTS ---
+             const commonOptions = {
+                 responsive: true,
+                 maintainAspectRatio: false,
+                 cutout: '75%',
+                 plugins: {
+                     legend: { display: false },
+                     tooltip: { enabled: true }
+                 }
+             };
+
+             const costChartCanvas =
+document.getElementById('costChart');
+             if(costChartCanvas) {
+                 new Chart(costChartCanvas, {
+                     type: 'doughnut',
+                     data: {
+                         labels: ['Logistics Waste', 'Productive Budget'],
+                         datasets: [{ data: [30, 70], backgroundColor: 
+['#ef4444', '#f1f5f9'], borderWidth: 0 }]
+                     },
+                     options: commonOptions
+                 });
+             }
+
+             const materialChartCanvas = document.getElementById('materialChart');
+             if(materialChartCanvas) {
+                 new Chart(materialChartCanvas, {
+                     type: 'doughnut',
+                     data: {
+                         labels: ['Late/Incorrect', 'On-time'],
+                         datasets: [{ data: [20, 80], backgroundColor: 
+['#f97316', '#f1f5f9'], borderWidth: 0 }]
+                     },
+                     options: commonOptions
+                 });
+             }
+
+             const timeChartCanvas =
+document.getElementById('timeChart');
+             if(timeChartCanvas) {
+                 new Chart(timeChartCanvas, {
+                     type: 'doughnut',
+                     data: {
+                         labels: ['Waiting Time', 'Productive Work'],
+                         datasets: [{ data: [20, 80], backgroundColor: 
+['#eab308', '#f1f5f9'], borderWidth: 0 }]
+                     },
+                     options: commonOptions
+                 });
+             }
+
+             // ROI Chart
+             const roiCtxCanvas = document.getElementById('roiChart');
+             if(roiCtxCanvas) {
+                 const roiCtx = roiCtxCanvas.getContext('2d');
+                 let roiChart = new Chart(roiCtx, {
+                     type: 'bar',
+                     data: {
+                         labels: ['Traditional', 'Syncra AI'],
+                         datasets: [{
+                             label: 'Logistics Costs (€M)',
+                             data: [30, 24],
+                             backgroundColor: ['#e2e8f0', '#9333ea'],
+                             borderRadius: 20
+                         }]
+                     },
+                     options: {
+                         responsive: true,
+                         maintainAspectRatio: false,
+                         scales: {
+                             y: { beginAtZero: true, grid: { display: 
+false }, ticks: { display: false } },
+                             x: { grid: { display: false } }
+                         },
+                         plugins: { legend: { display: false } }
+                     }
+                 });
+
+                 const slider = document.getElementById('roi-slider');
+                 const valueDisplay =
+document.getElementById('roi-value-display');
+                 const savingDisplay =
+document.getElementById('saving-display');
+
+                 if (slider) {
+                     slider.addEventListener('input', function() {
+                         const val = parseInt(this.value);
+                         valueDisplay.innerText = val;
+                         const traditionalLogistics = val * 0.3;
+                         const syncraLogistics = traditionalLogistics * 0.8;
+                         const savings = traditionalLogistics - syncraLogistics;
+                         savingDisplay.innerText = savings.toFixed(1);
+                         roiChart.data.datasets[0].data = [traditionalLogistics, syncraLogistics];
+                         roiChart.update();
+                     });
+
+                     // Trigger initial calculation
+                     slider.dispatchEvent(new Event('input'));
+                 }
+             }
+
+             // --- 2. HEADER PARTICLE NETWORK (NEW) ---
+             const heroCanvas =
+document.getElementById('hero-particles');
+             if (heroCanvas) {
+                 const heroCtx = heroCanvas.getContext('2d');
+                 let heroParticles = [];
+
+                 function initHeroParticles() {
+                     heroCanvas.width = window.innerWidth;
+                     heroCanvas.height = window.innerHeight;
+                     heroParticles = [];
+
+                     // Create particles
+                     for(let i = 0; i < 80; i++) {
+                         heroParticles.push({
+                             x: Math.random() * heroCanvas.width,
+                             y: Math.random() * heroCanvas.height,
+                             vx: (Math.random() - 0.5) * 0.5,
+                             vy: (Math.random() - 0.5) * 0.5,
+                             size: Math.random() * 2,
+                             color: 'rgba(147, 51, 234, 0.5)' // Purple tint
+                         });
+                     }
+                 }
+
+                 function drawHeroParticles() {
+                     heroCtx.clearRect(0, 0, heroCanvas.width, heroCanvas.height);
+
+                     heroParticles.forEach((p, index) => {
+                         p.x += p.vx;
+                         p.y += p.vy;
+
+                         // Bounce
+                         if(p.x < 0 || p.x > heroCanvas.width) p.vx *= -1;
+                         if(p.y < 0 || p.y > heroCanvas.height) p.vy *= -1;
+
+                         // Draw Particle
+                         heroCtx.beginPath();
+                         heroCtx.arc(p.x, p.y, p.size, 0, Math.PI * 2);
+                         heroCtx.fillStyle = p.color;
+                         heroCtx.fill();
+
+                         // Connections
+                         heroParticles.forEach((p2, j) => {
+                             if (index === j) return;
+                             const dx = p.x - p2.x;
+                             const dy = p.y - p2.y;
+                             const dist = Math.sqrt(dx*dx + dy*dy);
+
+                             if(dist < 150) {
+                                 heroCtx.beginPath();
+                                 heroCtx.strokeStyle = `rgba(147, 51, 234, ${0.15 - dist/1000})`;
+                                 heroCtx.lineWidth = 0.5;
+                                 heroCtx.moveTo(p.x, p.y);
+                                 heroCtx.lineTo(p2.x, p2.y);
+                                 heroCtx.stroke();
+                             }
+                         });
+                     });
+                     requestAnimationFrame(drawHeroParticles);
+                 }
+
+                 // Window resize handlers
+                 window.addEventListener('resize', () => {
+                     initHeroParticles();
+                 });
+
+                 initHeroParticles();
+                 drawHeroParticles();
+             }
+
+             // --- 3. TECHNOLOGY SECTION SIMULATION (HEART) ---
+             const techCanvas =
+document.getElementById('technology-canvas');
+             if (techCanvas) {
+                 const techCtx = techCanvas.getContext('2d');
+                 const simBtn = document.getElementById('sim-btn');
+                 const simStatus = document.getElementById('sim-status');
+
+                 let techParticles = [];
+                 let isOrchestrated = false;
+                 const particleCount = 100;
+
+                 function initTechSimulation() {
+                     if (!techCanvas) return;
+                     techCanvas.width = techCanvas.offsetWidth;
+                     techCanvas.height = techCanvas.offsetHeight;
+                     techParticles = [];
+                     for (let i = 0; i < particleCount; i++) {
+                         techParticles.push({
+                             x: Math.random() * techCanvas.width,
+                             y: Math.random() * techCanvas.height,
+                             targetX: Math.random() * techCanvas.width,
+                             targetY: Math.random() * techCanvas.height,
+                             size: 1.5 + Math.random() * 3,
+                             color: '#cbd5e1',
+                             vx: (Math.random() - 0.5) * 4,
+                             vy: (Math.random() - 0.5) * 4
+                         });
+                     }
+                 }
+
+                 function drawTechSimulation() {
+                     if (!techCtx) return;
+                     techCtx.clearRect(0, 0, techCanvas.width, techCanvas.height);
+
+                     const centerX = techCanvas.width / 2;
+                     const centerY = techCanvas.height / 2;
+                     const scale = Math.min(techCanvas.width,
+techCanvas.height) / 40;
+
+                     techParticles.forEach((p, i) => {
+                         if (isOrchestrated) {
+                             // Heart formula constellation
+                             const t = (i / particleCount) * Math.PI * 2;
+                             const hx = 16 * Math.pow(Math.sin(t), 3);
+                             const hy = -(13 * Math.cos(t) - 5 *
+Math.cos(2*t) - 2 * Math.cos(3*t) - Math.cos(4*t));
+
+                             p.targetX = centerX + hx * scale;
+                             p.targetY = centerY + hy * scale;
+                             p.color = '#a855f7';
+
+                             // Snappier easing
+                             p.x += (p.targetX - p.x) * 0.18;
+                             p.y += (p.targetY - p.y) * 0.18;
+                         } else {
+                             p.x += p.vx;
+                             p.y += p.vy;
+                             if (p.x < 0 || p.x > techCanvas.width) p.vx *= -1;
+                             if (p.y < 0 || p.y > techCanvas.height) p.vy *= -1;
+                             p.color = '#cbd5e1';
+                         }
+
+                         // Draw constellation lines
+                         techParticles.forEach((p2, j) => {
+                             const dist = Math.sqrt((p.x - p2.x)**2 + (p.y - p2.y)**2);
+                             const maxDist = isOrchestrated ? 100 : 70;
+                             if (dist < maxDist) {
+                                 techCtx.beginPath();
+                                 techCtx.strokeStyle = isOrchestrated ? 
+`rgba(168, 85, 247, ${0.4 - dist/maxDist})` : `rgba(203, 213, 225,
+${0.12 - dist/maxDist})`;
+                                 techCtx.lineWidth = 0.8;
+                                 techCtx.moveTo(p.x, p.y);
+                                 techCtx.lineTo(p2.x, p2.y);
+                                 techCtx.stroke();
+                             }
+                         });
+
+                         techCtx.beginPath();
+                         techCtx.arc(p.x, p.y, p.size, 0, Math.PI * 2);
+                         techCtx.fillStyle = p.color;
+                         techCtx.fill();
+
+                         if (isOrchestrated) {
+                             techCtx.shadowBlur = 15;
+                             techCtx.shadowColor = "#a855f7";
+                         } else {
+                             techCtx.shadowBlur = 0;
+                         }
+                     });
+                     requestAnimationFrame(drawTechSimulation);
+                 }
+
+                 if (simBtn) {
+                     simBtn.addEventListener('click', () => {
+                         isOrchestrated = !isOrchestrated;
+                         simStatus.innerText = isOrchestrated ? 
+"OPTIMIZED FLOW" : "CHAOTIC FLOW";
+                         simStatus.className = isOrchestrated ? "text-xl font-black italic text-purple-500 uppercase tracking-tighter" : "text-xl font-black italic text-white uppercase tracking-tighter";
+                         simBtn.innerHTML = isOrchestrated ? 'Reset to Chaos <i class="fa-solid fa-rotate-left ml-3"></i>' : 'Activate Orchestration <i class="fa-solid fa-bolt-lightning ml-3"></i>';
+                         simBtn.classList.toggle('bg-purple-600');
+                         simBtn.classList.toggle('bg-slate-700');
+                     });
+                 }
+
+                 // Window resize handlers
+                 window.addEventListener('resize', () => {
+                     initTechSimulation();
+                 });
+
+                 initTechSimulation();
+                 drawTechSimulation();
+             }
+         });
+     </script>
+</body>
+</html>
