@@ -1,690 +1,735 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" class="scroll-smooth">
 <head>
-     <meta charset="UTF-8">
-     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-     <title>Syncra AI Neo Cloud | Predictable Construction Logistics</title>
-     <!-- Tailwind CSS CDN -->
-     <script src="https://cdn.tailwindcss.com"></script>
-     <!-- Chart.js CDN -->
-     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-     <!-- Google Fonts -->
-     <link
-href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700;800&display=swap" 
-rel="stylesheet">
-     <!-- Font Awesome -->
-     <link rel="stylesheet" 
-href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Syncra AI | Predictive Construction Logistics</title>
+    
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- Lucide Icons CDN -->
+    <script src="https://unpkg.com/lucide@latest"></script>
+    
+    <!-- html2pdf for ROI Report -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
 
-     <style>
-         body { font-family: 'Inter', sans-serif; scroll-behavior: 
-smooth; }
-
-         /* Chart Containers */
-         .chart-container {
-             position: relative;
-             width: 100%;
-             max-width: 600px;
-             margin-left: auto;
-             margin-right: auto;
-             height: 300px;
-             max-height: 400px;
-         }
-
-         /* Simulation Canvas Styles */
-         #technology-canvas {
-             background: #0f172a;
-             border-radius: 1.5rem;
-             cursor: pointer;
-             box-shadow: inset 0 2px 20px rgba(0,0,0,0.6);
-         }
-
-         /* Animations */
-         .fade-in { animation: fadeIn 0.8s ease-out; }
-         @keyframes fadeIn {
-             from { opacity: 0; transform: translateY(20px); }
-             to { opacity: 1; transform: translateY(0); }
-         }
-
-         /* Hero Section Styling */
-         .hero-section {
-             position: relative;
-             height: 100vh;
-             min-height: 800px;
-             overflow: hidden;
-             background-color: #1a0a2e; /* Deep Purple Dark */
-             display: flex;
-             align-items: center;
-             justify-content: center;
-         }
-
-         /* Canvas for Header Particles */
-         #hero-particles {
-             position: absolute;
-             top: 0;
-             left: 0;
-             width: 100%;
-             height: 100%;
-             z-index: 0;
-         }
-
-         .hero-overlay {
-             position: absolute;
-             inset: 0;
-             background: radial-gradient(circle at center, rgba(147, 51, 234, 0.1) 0%, rgba(26, 10, 46, 0.8) 80%);
-             z-index: 1;
-             pointer-events: none;
-         }
-
-         .hero-content {
-             position: relative;
-             z-index: 10;
-         }
-
-         .feature-card:hover {
-             transform: translateY(-5px);
-             transition: transform 0.3s ease;
-         }
-
-         /* Purple range slider customization */
-         input[type=range].accent-purple-600::-webkit-slider-thumb {
-             background: #9333ea;
-         }
-     </style>
+    <!-- Tailwind Config to match original colors & fonts -->
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: { sans: ['Inter', 'system-ui', 'sans-serif'] },
+                    colors: {
+                        slate: {
+                            50: '#f8fafc', 100: '#f1f5f9', 200: '#e2e8f0', 300: '#cbd5e1', 400: '#94a3b8',
+                            500: '#64748b', 600: '#475569', 700: '#334155', 800: '#1e293b', 900: '#0f172a',
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        body { background-color: #0B0F19; color: #cbd5e1; }
+        .glass-card {
+            background-color: rgba(30, 41, 59, 0.4);
+            backdrop-filter: blur(16px);
+            border: 1px solid rgba(51, 65, 85, 0.5);
+            border-radius: 1rem;
+            padding: 1.5rem;
+        }
+        /* Hide scrollbar for clean pipeline view */
+        ::-webkit-scrollbar { width: 8px; }
+        ::-webkit-scrollbar-track { background: #0B0F19; }
+        ::-webkit-scrollbar-thumb { background: #334155; border-radius: 4px; }
+        ::-webkit-scrollbar-thumb:hover { background: #475569; }
+    </style>
 </head>
-<body class="bg-stone-50 text-slate-900 overflow-x-hidden">
+<body class="min-h-screen font-sans selection:bg-purple-500/30 overflow-x-hidden">
 
-     <!-- Navigation -->
-     <nav class="fixed top-0 w-full bg-white/95 backdrop-blur-md z-50 border-b border-stone-200 shadow-sm">
-         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-             <div class="flex justify-between h-20 items-center">
-                 <div class="flex items-center">
-                     <!-- Logo -->
-                     <div id="nav-logo" class="flex items-center
-space-x-3 group cursor-pointer">
-                         <svg width="42" height="42" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
-                             <rect width="100" height="100" rx="20" 
-fill="#9333ea"/>
-                             <path d="M30 70L50 30L70 70" stroke="white" 
-stroke-width="8" stroke-linecap="round" stroke-linejoin="round"/>
-                             <circle cx="50" cy="50" r="12" fill="white" 
-fill-opacity="0.25"/>
-                         </svg>
-                         <span class="text-2xl font-black tracking-tighter text-purple-900 italic">SYNCRA <span
-class="text-purple-600 font-normal not-italic">AI</span></span>
-                     </div>
-                 </div>
-                 <!-- Desktop Menu -->
-                 <div class="hidden lg:flex space-x-10 text-sm font-bold
-text-slate-500 uppercase tracking-widest">
-                     <a href="#challenges" class="hover:text-purple-600 transition-colors">Problem</a>
-                     <a href="#technology" class="hover:text-purple-600 transition-colors">Technology</a>
-                     <a href="#features" class="hover:text-purple-600 transition-colors">Features</a>
-                     <a href="#roi" class="hover:text-purple-600 transition-colors">ROI</a>
-                 </div>
-                 <!-- CTA Button -->
-                 <div class="flex items-center space-x-4">
-                     <span class="hidden md:block text-xs font-mono text-slate-400">www.syncracloud.com</span>
-                     <button id="nav-cta-btn" class="bg-purple-600 text-white px-6 py-2.5 rounded-full text-sm font-bold
-hover:bg-purple-700 transition-all shadow-lg shadow-purple-200 active:scale-95">
-                         Get a Demo
-                     </button>
-                 </div>
-             </div>
-         </div>
-     </nav>
+    <!-- NAVBAR -->
+    <nav id="navbar" class="fixed top-0 w-full z-50 transition-all duration-300 bg-transparent py-5">
+        <div class="max-w-7xl mx-auto px-6 flex justify-between items-center">
+            <a href="#" onclick="window.scrollTo({ top: 0, behavior: 'smooth' }); return false;" class="flex items-center gap-2 group cursor-pointer">
+                <div class="w-8 h-8 rounded-lg bg-gradient-to-br from-purple-500 to-cyan-400 flex items-center justify-center shadow-[0_0_10px_rgba(168,85,247,0.5)] group-hover:scale-105 transition-transform">
+                    <i data-lucide="triangle" class="w-4 h-4 text-white fill-white"></i>
+                </div>
+                <span class="text-xl font-bold text-white tracking-wide">SYNCRA <span class="text-purple-400">AI</span></span>
+            </a>
+            <div class="hidden md:flex items-center gap-8 text-sm font-medium">
+                <a href="#problem" class="hover:text-purple-400 transition-colors">PROBLEM</a>
+                <a href="#technology" class="hover:text-purple-400 transition-colors">SOLUTION</a>
+                <a href="#features" class="hover:text-purple-400 transition-colors">FEATURES</a>
+                <a href="#pipeline" class="hover:text-purple-400 transition-colors">PIPELINE</a>
+                <a href="#roi" class="hover:text-purple-400 transition-colors">ROI</a>
+                <a href="#team" class="hover:text-purple-400 transition-colors">TEAM</a>
+            </div>
+            <div class="flex items-center gap-4">
+                <button onclick="toggleModal('demoModal')" class="bg-gradient-to-r from-purple-600 to-cyan-500 text-white px-6 py-2.5 rounded-full text-sm font-bold hover:scale-105 transition-all shadow-[0_0_15px_rgba(168,85,247,0.4)]">
+                    Book Demo
+                </button>
+            </div>
+        </div>
+    </nav>
 
-     <!-- Hero Section with Particles -->
-     <header class="hero-section">
-         <!-- Interactive Particle Canvas -->
-         <canvas id="hero-particles"></canvas>
-         <div class="hero-overlay"></div>
+    <!-- HERO SECTION -->
+    <section class="relative pt-32 pb-20 md:pt-48 md:pb-32 px-6 flex flex-col justify-center min-h-[90vh]">
+        <div class="absolute top-0 left-1/2 -translate-x-1/2 w-full max-w-5xl h-full pointer-events-none">
+            <div class="absolute top-1/4 left-1/4 w-96 h-96 bg-purple-600/20 rounded-full blur-[120px]"></div>
+            <div class="absolute bottom-1/4 right-1/4 w-96 h-96 bg-cyan-600/20 rounded-full blur-[120px]"></div>
+        </div>
 
-         <div class="max-w-6xl mx-auto text-center hero-content px-4 mt-20">
-             <div class="inline-block px-4 py-1.5 mb-6 bg-purple-600 text-white rounded-full text-xs font-bold uppercase tracking-widest shadow-xl animate-pulse">
-                 AI-Driven Supply Chain Orchestration
-             </div>
+        <div class="max-w-7xl mx-auto text-center relative z-10">
+            <div class="inline-flex items-center gap-3 px-6 py-2 rounded-full bg-purple-500/20 border border-purple-400/50 text-white text-base md:text-lg font-extrabold tracking-wider mb-8 shadow-[0_0_20px_rgba(168,85,247,0.4)] animate-pulse">
+                <i data-lucide="activity" class="w-5 h-5 text-purple-300"></i>
+                SYNC TO THE PULSE OF YOUR BUSINESS
+            </div>
+            
+            <h1 class="text-5xl md:text-7xl font-extrabold text-white tracking-tight mb-6 leading-tight">
+                SYNCHRONIZE <span class="text-transparent bg-clip-text bg-gradient-to-r from-purple-400 via-fuchsia-400 to-cyan-400">THE UNSEEN.</span>
+            </h1>
+            
+            <p class="text-lg md:text-2xl text-slate-400 mb-10 max-w-3xl mx-auto leading-relaxed">
+                Move from chaos to pure knowledge. Syncra AI unifies your field force and global supply chain into a single, self-orchestrating intelligence.
+            </p>
+            
+            <div class="flex flex-col sm:flex-row items-center justify-center gap-4">
+                <button onclick="toggleModal('demoModal')" class="w-full sm:w-auto flex items-center justify-center gap-2 bg-gradient-to-r from-purple-600 to-cyan-600 text-white px-8 py-4 rounded-full font-bold hover:scale-105 hover:shadow-[0_0_30px_rgba(168,85,247,0.5)] transition-all">
+                    <i data-lucide="play" class="w-5 h-5 fill-current"></i> Claim Your Free Demo
+                </button>
+                <a href="#roi" class="w-full sm:w-auto flex items-center justify-center gap-2 bg-slate-800/80 backdrop-blur-md text-white border border-slate-600 px-8 py-4 rounded-full font-bold hover:bg-slate-700 transition-colors">
+                    <i data-lucide="calculator" class="w-5 h-5"></i> Calculate Your Savings
+                </a>
+            </div>
+            <p class="mt-6 text-sm text-slate-500 font-medium">Replace phone calls and spreadsheets with AI-powered orchestration.</p>
+        </div>
+    </section>
 
-             <h1 class="text-5xl md:text-7xl font-black tracking-tight text-white mb-8 fade-in leading-tight">
-                 SYNCHRONIZE THE <span class="text-transparent bg-clip-text bg-gradient-to-r from-purple-400 to-purple-200">UNSEEN.</span><br>
-                 BUILD THE IMPOSSIBLE.
-             </h1>
+    <!-- PROBLEM SECTION -->
+    <section id="problem" class="py-24 bg-[#0F1423] px-6 border-y border-slate-800/50">
+        <div class="max-w-7xl mx-auto grid md:grid-cols-2 gap-12 items-center">
+            <div>
+                <h2 class="text-3xl md:text-5xl font-bold tracking-tight mb-6 text-slate-50">A $474B Global Sinkhole</h2>
+                <p class="text-lg md:text-xl text-slate-400 max-w-lg leading-relaxed mb-8">
+                    The construction supply chain is broken. Projects run over budget and margins evaporate—not because of engineering failures, but because of a fundamentally broken supply chain built on guesswork.
+                </p>
+                <button onclick="toggleModal('demoModal')" class="bg-white/5 hover:bg-white/10 border border-white/10 text-white px-8 py-3 rounded-full font-bold transition-colors inline-flex items-center gap-2">
+                    Stop the Waste. See the Solution <i data-lucide="arrow-right" class="w-4 h-4"></i>
+                </button>
+            </div>
+            <div class="space-y-6">
+                <!-- Stat Cards -->
+                <div class="glass-card flex items-center gap-6 group hover:border-red-500/50 transition-all hover:-translate-y-1">
+                    <div class="w-16 h-16 shrink-0 bg-red-500/10 rounded-full flex items-center justify-center group-hover:scale-110 transition-transform">
+                        <i data-lucide="alert-triangle" class="w-8 h-8 text-red-400"></i>
+                    </div>
+                    <div class="flex-1">
+                        <div class="flex items-end gap-3 mb-1"><h3 class="text-4xl font-extrabold text-white">30%</h3><p class="text-xs font-bold text-red-400 uppercase tracking-widest pb-1">Logistics Waste</p></div>
+                        <p class="text-sm text-slate-400">of total project costs are lost to inefficient logistics and coordination chaos.</p>
+                        <div class="w-full bg-slate-700/50 rounded-full h-1.5 mt-3"><div class="bg-red-500 h-1.5 rounded-full w-[30%]"></div></div>
+                    </div>
+                </div>
+                <!-- Add similar static blocks for 20% Materials and 20% Labor if desired, matching the original -->
+            </div>
+        </div>
+    </section>
 
-             <p class="text-xl md:text-2xl text-slate-300 mb-12 max-w-3xl mx-auto leading-relaxed fade-in font-light" style="animation-delay: 
-0.1s">
-                 Move from chaos to pure knowledge. Syncra AI Neo Cloud unifies your field force and global supply chain into a single, self-orchestrating intelligence.
-             </p>
+    <!-- TECHNOLOGY SECTION (NEW WITH GIF) -->
+    <section id="technology" class="py-24 bg-[#0B0F19] px-6 border-y border-slate-800/50">
+        <div class="max-w-7xl mx-auto">
+            <div class="flex flex-col lg:flex-row gap-12 items-center">
+                <div class="w-full lg:w-5/12">
+                    <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-cyan-500/10 border border-cyan-500/20 text-cyan-400 text-xs font-bold uppercase tracking-wider mb-6">
+                        <i data-lucide="map" class="w-4 h-4"></i> Live Blueprint Tracking
+                    </div>
+                    <h2 class="text-3xl md:text-5xl font-bold tracking-tight mb-6 text-slate-50">
+                        Your Site, <br/><span class="text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 to-emerald-400">Fully Mapped.</span>
+                    </h2>
+                    <p class="text-lg text-slate-400 leading-relaxed mb-8">
+                        Stop guessing where materials are or which zone is blocked. Syncra AI ingests your blueprints and overlays real-time tracking, AI risk alerts, and phase statuses directly onto your floor plans and elevations.
+                    </p>
+                    <ul class="space-y-5 mb-8">
+                        <li class="flex items-start gap-3 text-slate-300">
+                            <i data-lucide="check-circle" class="w-6 h-6 text-emerald-400 shrink-0"></i> 
+                            <span><strong>Instant Visual Alerts:</strong> Spot clashes, missing materials, and schedule delays directly on the floor plan.</span>
+                        </li>
+                        <li class="flex items-start gap-3 text-slate-300">
+                            <i data-lucide="check-circle" class="w-6 h-6 text-emerald-400 shrink-0"></i> 
+                            <span><strong>Spatial Scheduling:</strong> See exactly when and where trades overlap to prevent zone conflicts.</span>
+                        </li>
+                    </ul>
+                    <button onclick="toggleModal('demoModal')" class="bg-white/5 hover:bg-white/10 border border-white/10 text-white px-8 py-3 rounded-full font-bold transition-colors inline-flex items-center gap-2">
+                        Explore the Command Center <i data-lucide="arrow-right" class="w-4 h-4"></i>
+                    </button>
+                </div>
+                <div class="w-full lg:w-7/12">
+                    <div class="relative group">
+                        <!-- Decorative background glow behind the image -->
+                        <div class="absolute -inset-1 bg-gradient-to-r from-cyan-500 to-purple-500 rounded-2xl blur-lg opacity-30 group-hover:opacity-60 transition duration-1000 group-hover:duration-200"></div>
+                        <!-- Glass container for the GIF -->
+                        <div class="glass-card p-2 relative bg-slate-900/80 border border-slate-700/50 rounded-2xl overflow-hidden shadow-2xl">
+                            <img src="./Syncra_blueprint_video.gif" alt="Syncra AI Blueprint Tracking Interface" class="w-full h-auto rounded-xl relative z-10 border border-slate-800/50 object-cover" />
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
 
-             <div class="flex flex-col sm:flex-row justify-center
-space-y-4 sm:space-y-0 sm:space-x-6 fade-in" style="animation-delay: 
-0.2s">
-                 <button id="hero-watch-btn" class="bg-purple-600 text-white px-10 py-5 rounded-2xl font-bold hover:bg-purple-700 transition-all flex items-center justify-center text-lg shadow-2xl
-shadow-purple-500/40 border border-purple-500">
-                     Watch it work <i class="fa-solid fa-play ml-3 text-xs"></i>
-                 </button>
-                 <a href="#roi" class="bg-slate-800/50 backdrop-blur-md border border-purple-500/30 text-white px-10 py-5 rounded-2xl font-bold
-hover:bg-purple-900/30 transition-all flex items-center justify-center text-lg hover:border-purple-400">
-                     Calculate ROI <i class="fa-solid fa-chart-line ml-3 text-xs"></i>
-                 </a>
-             </div>
-         </div>
+    <!-- FEATURES SECTION -->
+    <section id="features" class="py-24 px-6 relative overflow-hidden bg-[#0F1423]">
+        <div class="max-w-7xl mx-auto">
+            <div class="text-center mb-16">
+                <h2 class="text-3xl md:text-5xl font-bold text-slate-50 mb-4">End-to-End Orchestration</h2>
+                <p class="text-xl text-slate-400 max-w-2xl mx-auto">SaaS + Dedicated Enterprise cloud workflow models designed to deliver immediate operational efficiency.</p>
+            </div>
 
-         <div class="absolute bottom-10 left-1/2 transform
--translate-x-1/2 z-20 animate-bounce">
-             <a href="#challenges" class="text-white/60
-hover:text-purple-400 transition-colors">
-                 <i class="fa-solid fa-chevron-down text-3xl"></i>
-             </a>
-         </div>
-     </header>
+            <div class="grid lg:grid-cols-2 gap-8">
+                <!-- AI Schedule Optimizer -->
+                <div class="glass-card relative overflow-hidden border-purple-500/30">
+                    <div class="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-purple-500 to-cyan-400"></div>
+                    <div class="flex justify-between items-center mb-6">
+                        <h4 class="font-bold text-white flex items-center gap-2"><i data-lucide="activity" class="w-5 h-5 text-purple-400"></i> AI Schedule Optimizer</h4>
+                        <div class="flex items-center gap-3">
+                            <button onclick="resetAll()" class="text-slate-400 hover:text-white" title="Reset"><i data-lucide="refresh-cw" class="w-4 h-4"></i></button>
+                            <button onclick="optimizeSchedule()" class="text-xs bg-purple-500 text-white font-bold px-3 py-1.5 rounded hover:bg-purple-400 shadow-[0_0_10px_rgba(168,85,247,0.4)]">Optimize All</button>
+                        </div>
+                    </div>
+                    <div id="optimizerList" class="space-y-4">
+                        <!-- Populated by JS -->
+                    </div>
+                </div>
 
-     <!-- Challenges Section -->
-     <section id="challenges" class="py-32 px-4 bg-white">
-         <div class="max-w-7xl mx-auto">
-             <div class="flex flex-col lg:flex-row gap-20 items-center">
-                 <div class="lg:w-1/2">
-                     <h2 class="text-4xl md:text-5xl font-black mb-8 leading-tight text-purple-900">The €1 Billion<br><span class="text-red-500">Construction Crisis</span></h2>
-                     <p class="text-xl text-slate-600 mb-10">Inefficiency is built into current methods. We have quantified the cost based on industry data.</p>
-                     <div class="space-y-8">
-                         <div class="flex items-center space-x-6 p-6
-bg-stone-50 rounded-2xl border border-stone-100">
-                             <span class="text-4xl font-black text-red-500">30%</span>
-                             <p class="text-slate-600 font-medium leading-snug">of total project costs are lost to <strong>inefficient logistics</strong>.</p>
-                         </div>
-                         <div class="flex items-center space-x-6 p-6
-bg-stone-50 rounded-2xl border border-stone-100">
-                             <span class="text-4xl font-black text-orange-500">20%</span>
-                             <p class="text-slate-600 font-medium leading-snug">of materials arrive <strong>late or incorrectly</strong>.</p>
-                         </div>
-                         <div class="flex items-center space-x-6 p-6
-bg-stone-50 rounded-2xl border border-stone-100">
-                             <span class="text-4xl font-black text-yellow-500">20%</span>
-                             <p class="text-slate-600 font-medium leading-snug">of labor time is wasted <strong>waiting for materials</strong>.</p>
-                         </div>
-                     </div>
-                 </div>
-                 <div class="lg:w-1/2 grid grid-cols-1 md:grid-cols-2
-gap-8 text-center">
-                     <div class="bg-stone-50 p-6 rounded-3xl border border-stone-100">
-                         <p class="text-xs font-bold uppercase
-text-slate-400 mb-4">Logistics Waste</p>
-                         <div class="chart-container"><canvas id="costChart"></canvas></div>
-                     </div>
-                     <div class="bg-stone-50 p-6 rounded-3xl border border-stone-100">
-                         <p class="text-xs font-bold uppercase
-text-slate-400 mb-4">Material Delays</p>
-                         <div class="chart-container"><canvas id="materialChart"></canvas></div>
-                     </div>
-                     <div class="bg-stone-50 p-6 rounded-3xl border
-border-stone-100 md:col-span-2">
-                         <p class="text-xs font-bold uppercase
-text-slate-400 mb-4">Labor Idle Time</p>
-                         <div class="chart-container"><canvas id="timeChart"></canvas></div>
-                     </div>
-                 </div>
-             </div>
-         </div>
-     </section>
+                <!-- AI Risk Analysis -->
+                <div class="glass-card border-red-500/20 flex flex-col h-[400px]">
+                    <div class="flex justify-between items-center mb-6">
+                        <h4 class="font-bold text-white flex items-center gap-2"><i data-lucide="alert-circle" class="w-5 h-5 text-red-400"></i> AI Risk Analysis</h4>
+                        <div class="flex items-center gap-3">
+                            <button onclick="resetSimulator()" id="resetRiskBtn" class="hidden text-slate-400 hover:text-white" title="Reset Simulator"><i data-lucide="refresh-cw" class="w-4 h-4"></i></button>
+                            <span id="riskCount" class="text-xs text-red-400 flex items-center gap-1 bg-red-500/10 px-2 py-1 rounded font-bold">2 Alerts</span>
+                        </div>
+                    </div>
 
-     <!-- Technology Section (Heart Simulation) -->
-     <section id="technology" class="py-32 px-4 bg-slate-900 text-white overflow-hidden scroll-mt-20">
-         <div class="max-w-7xl mx-auto">
-             <div class="grid lg:grid-cols-2 gap-20 items-center">
-                 <div>
-                     <h2 class="text-4xl md:text-6xl font-black mb-10 leading-tight">From Chaos to<br><span class="text-purple-400">Pure Knowledge</span></h2>
-                     <p class="text-xl text-slate-400 mb-12 leading-relaxed">
-                         Syncra AI Neo Cloud unifies field data with predictive orchestration. Move from reactive firefighting to a streamlined digital supply chain.
-                     </p>
-                     <div class="space-y-12">
-                         <div class="flex items-start space-x-6 group">
-                             <div class="bg-purple-500/10 p-4 rounded-2xl border border-purple-500/20 group-hover:bg-purple-500/20 transition-all">
-                                 <i class="fa-solid fa-brain
-text-purple-400 text-2xl"></i>
-                             </div>
-                             <div>
-                                 <h4 class="font-black text-xl mb-2 italic uppercase text-purple-200">Predictive Orchestration</h4>
-                                 <p class="text-slate-500">Proactive analytics that warn of risks before they disrupt the site.</p>
-                             </div>
-                         </div>
-                         <div class="flex items-start space-x-6 group">
-                             <div class="bg-purple-500/10 p-4 rounded-2xl border border-purple-500/20 group-hover:bg-purple-500/20 transition-all">
-                                 <i class="fa-solid fa-satellite-dish
-text-purple-400 text-2xl"></i>
-                             </div>
-                             <div>
-                                 <h4 class="font-black text-xl mb-2 italic uppercase text-purple-200">Real-Time Tracking</h4>
-                                 <p class="text-slate-500">IoT-based tracking of materials and equipment from order to installation.</p>
-                             </div>
-                         </div>
-                     </div>
-                     <button id="sim-btn" class="mt-16 bg-purple-600 text-white px-10 py-5 rounded-2xl font-black hover:bg-purple-700 transition-all flex items-center shadow-2xl shadow-purple-500/20 text-lg uppercase tracking-tighter">
-                         Activate Orchestration <i class="fa-solid fa-bolt-lightning ml-3"></i>
-                     </button>
-                 </div>
+                    <div class="mb-4 bg-slate-900/50 p-1 rounded-xl border border-slate-700 focus-within:border-purple-500/50">
+                        <div class="flex gap-2 p-1">
+                            <input type="text" id="scenarioInput" placeholder="Enter custom disruption (e.g. Crane broke down...)" class="flex-1 bg-transparent border-none text-sm text-white px-3 py-2 focus:outline-none placeholder-slate-500" />
+                            <button onclick="simulateRisk()" id="simulateBtn" class="bg-purple-600 hover:bg-purple-500 text-white text-xs font-bold px-4 py-2 rounded-lg flex items-center gap-1 shadow-lg">
+                                <i data-lucide="sparkles" class="w-4 h-4"></i> Simulate
+                            </button>
+                        </div>
+                        <p id="apiError" class="text-xs text-red-400 px-4 pb-2 font-medium hidden"></p>
+                    </div>
+                    
+                    <div id="riskList" class="space-y-3 flex-1 overflow-y-auto pr-2">
+                        <!-- Populated by JS -->
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
 
-                 <div class="relative">
-                     <!-- Changed ID to avoid conflict with Header Canvas 
--->
-                     <canvas id="technology-canvas" class="w-full aspect-square border-4 border-slate-800"></canvas>
-                     <div class="absolute -bottom-6 -left-6 bg-slate-800
-px-6 py-4 rounded-2xl border border-slate-700 shadow-2xl">
-                         <p class="text-xs font-mono uppercase tracking-widest text-purple-400 mb-1">Engine Status</p>
-                         <p id="sim-status" class="text-xl font-black italic">CHAOTIC FLOW</p>
-                     </div>
-                 </div>
-             </div>
-         </div>
-     </section>
+    <!-- PIPELINE SECTION -->
+    <section id="pipeline" class="py-24 bg-[#050810] px-6 border-t border-slate-800/50">
+        <div class="max-w-7xl mx-auto">
+            <div class="text-center mb-16">
+                <h2 class="text-3xl md:text-5xl font-bold text-slate-50 mb-4">The Orchestration Pipeline</h2>
+                <p class="text-xl text-slate-400 max-w-2xl mx-auto">Track every phase of your build in real-time. Syncra connects the dots between procurement, transit, and on-site installation.</p>
+            </div>
+            
+            <div class="mt-16 max-w-5xl mx-auto glass-card p-0 overflow-hidden border-slate-700 shadow-2xl">
+                <div class="bg-slate-900/80 p-5 md:p-6 border-b border-slate-800 flex justify-between items-center">
+                    <h3 class="text-xl font-bold text-white flex items-center gap-3">
+                        <i data-lucide="kanban" class="w-6 h-6 text-purple-400"></i> Live Work Phases
+                    </h3>
+                    <button onclick="optimizePipeline()" class="bg-purple-500 hover:bg-purple-400 text-white text-xs font-bold px-4 py-2 rounded-lg transition-colors shadow-[0_0_10px_rgba(168,85,247,0.4)]">
+                        Optimize All
+                    </button>
+                </div>
+                <div id="pipelineList" class="divide-y divide-slate-800/80 bg-slate-900/30">
+                    <!-- Populated by JS -->
+                </div>
+            </div>
+        </div>
+    </section>
 
-     <!-- Advanced Features Section -->
-     <section id="features" class="py-32 px-4 bg-stone-100">
-         <div class="max-w-7xl mx-auto">
-             <div class="text-center mb-20">
-                 <h2 class="text-5xl font-black mb-6 text-purple-900">Advanced Capabilities</h2>
-                 <p class="text-xl text-slate-500">Built for modern construction demands.</p>
-             </div>
+    <!-- ROI SECTION -->
+    <section id="roi" class="py-24 bg-[#0F1423] px-6 border-y border-slate-800/50 relative overflow-hidden">
+        <div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-full max-w-4xl h-[500px] bg-cyan-900/10 rounded-full blur-[150px] pointer-events-none"></div>
+        <div class="max-w-5xl mx-auto relative z-10 text-center">
+            <h2 class="text-3xl md:text-5xl font-bold text-slate-50 mb-4">Efficiency Savings Estimator</h2>
+            <p class="text-xl text-slate-400 max-w-2xl mx-auto">Visualize the immediate financial impact on your project budget.</p>
 
-             <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
-                 <div class="feature-card bg-white p-10 rounded-[2.5rem] shadow-sm border border-stone-200">
-                     <i class="fa-solid fa-file-invoice text-4xl
-text-purple-600 mb-8"></i>
-                     <h3 class="text-2xl font-black mb-4 text-purple-900">Automated Planning</h3>
-                     <p class="text-slate-500 leading-relaxed">Blueprints transform into project plans instantly. Manual planning is now obsolete.</p>
-                 </div>
-                 <div class="feature-card bg-white p-10 rounded-[2.5rem] shadow-sm border border-stone-200">
-                     <i class="fa-solid fa-leaf text-4xl text-purple-600 mb-8"></i>
-                     <h3 class="text-2xl font-black mb-4 text-purple-900">ESG & Carbon Footprint</h3>
-                     <p class="text-slate-500 leading-relaxed">Built-in
-CO2 calculator and reporting. Real-time sustainability metrics.</p>
-                 </div>
-                 <div class="feature-card bg-white p-10 rounded-[2.5rem] shadow-sm border border-stone-200">
-                     <i class="fa-solid fa-triangle-exclamation text-4xl
-text-purple-600 mb-8"></i>
-                     <h3 class="text-2xl font-black mb-4 text-purple-900">Risk Alerts</h3>
-                     <p class="text-slate-500 leading-relaxed">AI agents automatically identify schedule delays and overlaps.</p>
-                 </div>
-             </div>
-         </div>
-     </section>
+            <div class="glass-card mt-12 bg-slate-900/60 p-8 md:p-12 shadow-2xl text-left">
+                <div class="grid md:grid-cols-2 gap-12">
+                    <div class="flex flex-col justify-center">
+                        <label class="block text-sm font-bold text-slate-400 uppercase tracking-wider mb-6">Total Project Budget (€M)</label>
+                        <div class="flex items-end gap-2 mb-8">
+                            <span id="budgetText" class="text-6xl font-extrabold text-white tabular-nums">€100</span>
+                            <span class="text-xl text-slate-500 font-bold pb-2">MILLION</span>
+                        </div>
+                        <input type="range" id="budgetRange" min="10" max="1000" step="10" value="100" class="w-full h-3 bg-slate-800 rounded-lg appearance-none cursor-pointer accent-cyan-500 mb-10 shadow-inner" oninput="updateROI()">
+                        <div class="relative group rounded-2xl p-[2px] bg-gradient-to-br from-purple-500 to-cyan-500 mb-6 shadow-[0_0_30px_rgba(168,85,247,0.2)]">
+                            <div class="bg-slate-900 rounded-2xl p-6 h-full w-full">
+                                <span class="block text-sm font-bold text-cyan-400 uppercase mb-2">Estimated Gross Savings</span>
+                                <span id="grossSavings" class="text-5xl font-extrabold text-white tabular-nums">€6.0M</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="flex flex-col justify-between">
+                        <div class="bg-slate-800/80 rounded-2xl p-8 border border-slate-700 mb-8">
+                            <h4 class="font-bold text-white flex items-center gap-3 mb-6"><i data-lucide="calculator" class="w-6 h-6 text-slate-400"></i> Investment Breakdown</h4>
+                            <div class="space-y-5">
+                                <div class="flex justify-between text-slate-400"><span>Estimated SaaS Cost:</span><span id="saasCost" class="font-bold text-white">€0.50M</span></div>
+                                <div class="flex justify-between text-slate-400"><span>Labor Reduction:</span><span id="laborRed" class="font-bold text-emerald-400">~10 roles</span></div>
+                                <div class="pt-6 border-t border-slate-700 flex justify-between items-center">
+                                    <span class="text-white font-bold text-lg">Net Project Benefit:</span>
+                                    <span id="netBenefit" class="text-transparent bg-clip-text bg-gradient-to-r from-purple-400 to-cyan-400 text-4xl font-black">€5.5M</span>
+                                </div>
+                            </div>
+                        </div>
+                        <button onclick="toggleModal('pdfModal')" class="w-full bg-white text-slate-900 py-5 rounded-xl text-lg font-black hover:bg-slate-100 transition-all shadow-[0_0_20px_rgba(255,255,255,0.15)] flex justify-center gap-3">
+                            <i data-lucide="file-spreadsheet" class="w-6 h-6"></i> Get Custom ROI Report
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
 
-     <!-- ROI Estimator -->
-     <section id="roi" class="py-32 px-4 bg-stone-50 scroll-mt-20">
-         <div class="max-w-4xl mx-auto bg-white rounded-[3.5rem] p-12
-md:p-20 shadow-2xl border border-stone-200">
-             <div class="text-center mb-16">
-                 <h2 class="text-4xl font-black mb-6 text-purple-900">Efficiency Savings Estimator</h2>
-                 <p class="text-slate-500">Visualize the potential impact on your project budget.</p>
-             </div>
+    <!-- TEAM SECTION -->
+    <section id="team" class="py-24 bg-[#0B0F19] px-6">
+        <div class="max-w-7xl mx-auto text-center">
+            <h2 class="text-3xl md:text-5xl font-bold text-slate-50 mb-16">Built by Builders</h2>
+            <div class="flex flex-wrap justify-center gap-8">
+                <!-- Team Member 1 -->
+                <div class="glass-card text-center w-full md:w-[calc(33.333%-1.5rem)] min-w-[280px] max-w-sm hover:-translate-y-2 transition-transform duration-300">
+                    <div class="w-24 h-24 mx-auto bg-slate-700 rounded-full mb-6 flex items-center justify-center"><i data-lucide="users" class="w-10 h-10 text-slate-400"></i></div>
+                    <h3 class="text-xl font-bold text-white mb-1">Jan Borgelin</h3>
+                    <p class="text-sm font-bold text-purple-400 uppercase tracking-wide mb-4">Technology</p>
+                    <p class="text-slate-400 text-sm">Tech entrepreneur with 25+ years of experience in IoT, AI, and supply chain innovation. A former startup CEO and CTO, he excels at leading teams from early product development to full commercial scale.</p>
+                </div>
+                <!-- Team Member 2 -->
+                <div class="glass-card text-center w-full md:w-[calc(33.333%-1.5rem)] min-w-[280px] max-w-sm hover:-translate-y-2 transition-transform duration-300">
+                    <div class="w-24 h-24 mx-auto bg-slate-700 rounded-full mb-6 flex items-center justify-center"><i data-lucide="users" class="w-10 h-10 text-slate-400"></i></div>
+                    <h3 class="text-xl font-bold text-white mb-1">Tuomas Vuorio</h3>
+                    <p class="text-sm font-bold text-purple-400 uppercase tracking-wide mb-4">Sales & Marketing</p>
+                    <p class="text-slate-400 text-sm">Serial entrepreneur and venture builder with 15+ years of experience in media, marketing, and tech. Specializes in building scalable products and data-driven storytelling ecosystems.</p>
+                </div>
+                <!-- Team Member 3 -->
+                <div class="glass-card text-center w-full md:w-[calc(33.333%-1.5rem)] min-w-[280px] max-w-sm hover:-translate-y-2 transition-transform duration-300">
+                    <div class="w-24 h-24 mx-auto bg-slate-700 rounded-full mb-6 flex items-center justify-center"><i data-lucide="users" class="w-10 h-10 text-slate-400"></i></div>
+                    <h3 class="text-xl font-bold text-white mb-1">Jere Keskitalo</h3>
+                    <p class="text-sm font-bold text-purple-400 uppercase tracking-wide mb-4">Customer Operations</p>
+                    <p class="text-slate-400 text-sm">Construction engineer and industry innovator with 10+ years of hands-on site leadership and project management experience. Drives site productivity and scalable commercial services.</p>
+                </div>
+                <!-- Team Member 4 -->
+                <div class="glass-card text-center w-full md:w-[calc(33.333%-1.5rem)] min-w-[280px] max-w-sm hover:-translate-y-2 transition-transform duration-300">
+                    <div class="w-24 h-24 mx-auto bg-slate-700 rounded-full mb-6 flex items-center justify-center"><i data-lucide="users" class="w-10 h-10 text-slate-400"></i></div>
+                    <h3 class="text-xl font-bold text-white mb-1">Elmeri Kakko</h3>
+                    <p class="text-sm font-bold text-purple-400 uppercase tracking-wide mb-4">Product Lead</p>
+                    <p class="text-slate-400 text-sm">Analytical construction professional with 7+ years of site leadership and project management experience. Builds future-ready efficiency tools with a deep operational background.</p>
+                </div>
+                <!-- Team Member 5 -->
+                <div class="glass-card text-center w-full md:w-[calc(33.333%-1.5rem)] min-w-[280px] max-w-sm hover:-translate-y-2 transition-transform duration-300">
+                    <div class="w-24 h-24 mx-auto bg-slate-700 rounded-full mb-6 flex items-center justify-center"><i data-lucide="users" class="w-10 h-10 text-slate-400"></i></div>
+                    <h3 class="text-xl font-bold text-white mb-1">Warren Sample</h3>
+                    <p class="text-sm font-bold text-purple-400 uppercase tracking-wide mb-4">Strategy & Finance</p>
+                    <p class="text-slate-400 text-sm">Global venture builder and Silicon Valley native with 30+ years of experience across AI, SaaS, and FinTech. Specializes in designing, funding, and scaling complex businesses.</p>
+                </div>
+            </div>
+        </div>
+    </section>
 
-             <div class="grid grid-cols-1 md:grid-cols-2 gap-20 items-center">
-                 <div class="space-y-12">
-                     <div>
-                         <label class="block text-xs font-black
-text-slate-400 uppercase tracking-[0.2em] mb-6">Total Project Budget (€M)</label>
-                         <input type="range" id="roi-slider" min="5" 
-max="500" value="100" class="w-full h-3 bg-stone-100 rounded-full appearance-none cursor-pointer accent-purple-600">
-                         <div class="flex justify-between mt-6">
-                             <span class="text-4xl font-black text-slate-900">€<span id="roi-value-display">100</span></span>
-                             <span class="text-4xl font-black
-text-slate-300 uppercase tracking-tighter">Million</span>
-                         </div>
-                     </div>
+    <!-- FOOTER -->
+    <footer class="bg-[#050810] border-t border-slate-800 pt-16 pb-8 px-6 text-center text-slate-500">
+        <div class="flex items-center justify-center gap-2 mb-4">
+            <i data-lucide="triangle" class="w-5 h-5 text-purple-400 fill-current"></i>
+            <span class="text-xl font-bold text-white">SYNCRA <span class="text-purple-400">AI</span></span>
+        </div>
+        <p>&copy; 2026 Syncra AI Neo Cloud. All rights reserved.</p>
+    </footer>
 
-                     <div class="space-y-4">
-                         <div class="bg-purple-600 p-6 rounded-3xl text-white shadow-xl shadow-purple-200">
-                             <p class="text-xs font-bold uppercase tracking-widest opacity-80 mb-2">Estimated Savings</p>
-                             <p class="text-3xl font-black">€<span id="saving-display">6.0</span>M</p>
-                         </div>
-                         <div class="flex gap-4">
-                             <div class="flex-1 bg-purple-50 p-6 rounded-3xl text-purple-900 border border-purple-100">
-                                 <p class="text-[10px] font-bold uppercase mb-1">Reduced Delays</p>
-                                 <p class="text-xl font-black">-40%</p>
-                             </div>
-                             <div class="flex-1 bg-purple-50 p-6 rounded-3xl text-purple-900 border border-purple-100">
-                                 <p class="text-[10px] font-bold uppercase mb-1">CO2 Impact</p>
-                                 <p class="text-xl font-black">-30%</p>
-                             </div>
-                         </div>
-                     </div>
-                 </div>
+    <!-- MODALS (Hidden by default) -->
+    
+    <!-- Demo Modal -->
+    <div id="demoModal" class="fixed inset-0 z-[100] flex items-center justify-center p-4 hidden">
+        <div class="absolute inset-0 bg-black/80 backdrop-blur-sm" onclick="toggleModal('demoModal')"></div>
+        <div class="bg-slate-900 border border-slate-700 rounded-3xl p-8 max-w-md w-full relative z-10 shadow-2xl">
+            <button onclick="toggleModal('demoModal')" class="absolute top-6 right-6 text-slate-400 hover:text-white"><i data-lucide="x" class="w-6 h-6"></i></button>
+            <h3 class="text-2xl font-bold text-white mb-2">Book a Platform Demo</h3>
+            <p class="text-slate-400 text-sm mb-6">See how Syncra AI orchestrates your supply chain.</p>
+            <form onsubmit="handleDemoSubmit(event)" class="space-y-4">
+                <input type="text" id="demoName" required placeholder="Full Name" class="w-full bg-slate-800 border border-slate-700 rounded-lg px-4 py-3 text-white focus:outline-none focus:border-purple-500">
+                <input type="email" id="demoEmail" required placeholder="Work Email" class="w-full bg-slate-800 border border-slate-700 rounded-lg px-4 py-3 text-white focus:outline-none focus:border-purple-500">
+                <button type="submit" class="w-full bg-gradient-to-r from-purple-600 to-cyan-500 text-white font-bold py-4 rounded-xl hover:scale-[1.02] transition-transform flex justify-center items-center h-[56px]">Request Access</button>
+            </form>
+        </div>
+    </div>
 
-                 <div class="chart-container">
-                     <canvas id="roiChart"></canvas>
-                 </div>
-             </div>
-         </div>
-     </section>
+    <!-- PDF Modal -->
+    <div id="pdfModal" class="fixed inset-0 z-[100] flex items-center justify-center p-4 hidden">
+        <div class="absolute inset-0 bg-black/80 backdrop-blur-sm" onclick="toggleModal('pdfModal')"></div>
+        <div class="bg-slate-900 border border-slate-700 rounded-3xl p-8 max-w-md w-full relative z-10 shadow-2xl">
+            <button onclick="toggleModal('pdfModal')" class="absolute top-6 right-6 text-slate-400 hover:text-white"><i data-lucide="x" class="w-6 h-6"></i></button>
+            <h3 class="text-2xl font-bold text-white mb-2">Claim Your ROI Report</h3>
+            <p class="text-slate-400 text-sm mb-6">Generate a custom PDF savings projection.</p>
+            <form onsubmit="handleGeneratePDF(event)" class="space-y-4">
+                <input type="text" id="pdfName" required placeholder="Full Name" class="w-full bg-slate-800 border border-slate-700 rounded-lg px-4 py-3 text-white">
+                <input type="text" id="pdfCompany" required placeholder="Company" class="w-full bg-slate-800 border border-slate-700 rounded-lg px-4 py-3 text-white">
+                <input type="email" id="pdfEmail" required placeholder="Work Email" class="w-full bg-slate-800 border border-slate-700 rounded-lg px-4 py-3 text-white">
+                <button type="submit" id="pdfBtn" class="w-full bg-gradient-to-r from-purple-600 to-cyan-500 text-white font-bold py-4 rounded-xl flex items-center justify-center gap-2 h-[56px]">
+                    <i data-lucide="download" class="w-5 h-5"></i> Download PDF
+                </button>
+            </form>
+        </div>
+    </div>
 
-     <!-- Footer -->
-     <footer id="contact" class="py-32 px-4 bg-white text-center">
-         <div class="max-w-4xl mx-auto">
-             <h2 class="text-5xl md:text-7xl font-black mb-10 tracking-tighter">Stop guessing.<br><span class="text-purple-600 italic underline decoration-purple-200">Start orchestrating.</span></h2>
-             <div class="flex flex-col items-center space-y-8">
-                 <button id="footer-demo-btn" class="bg-purple-600 text-white px-12 py-6 rounded-3xl font-black text-xl hover:bg-purple-700 transition-all shadow-2xl shadow-purple-200 active:scale-95">
-                     Request Platform Demo
-                 </button>
-                 <div class="pt-12 flex flex-col items-center">
-                     <p class="text-sm font-bold text-slate-400 uppercase tracking-widest mb-2 text-purple-900">Platform Hub</p>
-                     <a href="https://www.syncracloud.com" 
-class="text-2xl font-black text-slate-900 hover:text-purple-600 transition-colors">www.syncracloud.com</a>
-                 </div>
-             </div>
+    <!-- HIDDEN PDF TEMPLATE (Used by html2pdf) -->
+    <div id="pdf-report-template" class="hidden bg-white text-slate-900 px-12 py-10 font-sans mx-auto" style="width: 800px; min-height: 1050px;">
+        <div class="flex justify-between items-end border-b-4 border-slate-900 pb-6 mb-10">
+            <h1 class="text-4xl font-black tracking-tight">SYNCRA <span class="text-purple-600">AI</span></h1>
+            <div class="text-right">
+                <p class="text-2xl font-black text-slate-300 uppercase tracking-widest">ROI Analysis</p>
+                <p class="text-sm font-bold text-slate-500 mt-1" id="pdfDate"></p>
+            </div>
+        </div>
+        <div class="mb-10 bg-slate-50 p-6 rounded-2xl border border-slate-200">
+            <h2 class="text-xs font-bold text-slate-400 uppercase tracking-wider mb-4">Prepared For</h2>
+            <div class="grid grid-cols-2 gap-6">
+                <div><p class="text-xl font-black text-slate-900" id="pdfRenderName"></p></div>
+                <div><p class="text-xl font-black text-slate-900" id="pdfRenderCompany"></p></div>
+            </div>
+        </div>
+        <div class="mb-10">
+            <h3 class="text-2xl font-extrabold text-slate-900 mb-6">Financial Impact Projection</h3>
+            <div class="border border-slate-200 rounded-2xl overflow-hidden shadow-sm">
+                <div class="flex justify-between items-center p-5 border-b border-slate-200 bg-slate-50">
+                    <span class="font-bold text-slate-600 uppercase text-sm">Total Budget Analyzed</span>
+                    <span class="font-black text-xl text-slate-900" id="pdfRenderBudget"></span>
+                </div>
+                <div class="flex justify-between items-center p-8 bg-slate-900 text-white">
+                    <span class="text-2xl font-extrabold">Net Projected Benefit</span>
+                    <span class="text-5xl font-black text-cyan-400" id="pdfRenderNet"></span>
+                </div>
+            </div>
+        </div>
+    </div>
 
-             <div class="mt-32 pt-12 border-t border-stone-100 text-xs
-text-slate-400 font-bold uppercase tracking-widest">
-                 &copy; 2026 Syncra AI Neo Cloud. All rights reserved.
-             </div>
-         </div>
-     </footer>
+    <!-- MAIN JAVASCRIPT LOGIC -->
+    <script>
+        // --- 1. State & Initial Data ---
+        let orchestrated = true;
+        let budget = 100;
+        const API_KEY = ""; // Optional: Gemini API Key for Simulator
 
-     <!-- JavaScript Logic -->
-     <script>
-         // Set up event listeners (Separation of HTML and Logic)
-         document.addEventListener('DOMContentLoaded', () => {
-             // Navigation
-             const navLogo = document.getElementById('nav-logo');
-             if(navLogo) navLogo.addEventListener('click', () => window.scrollTo(0,0));
+        let projects = [
+            { id: 1, abbr: 'AC', name: 'Atlas Construction', location: 'Warehouse 7', progress: 87, status: 'In Progress', phase: 'Roofing', color: 'emerald' },
+            { id: 2, abbr: 'PB', name: 'Precision Builders', location: 'Zone C', progress: 42, status: 'In Progress', phase: 'Piping', color: 'cyan' },
+            { id: 3, abbr: 'EE', name: 'Elite Distributors', location: 'Port 12', progress: 65, status: 'In Progress', phase: 'Electrical', color: 'purple' },
+            { id: 4, abbr: 'BT', name: 'BuildTech', location: 'Sector 4', progress: 28, status: 'Delayed', phase: 'Foundation', color: 'red' },
+        ];
 
-             const navCtaBtn = document.getElementById('nav-cta-btn');
-             if(navCtaBtn) navCtaBtn.addEventListener('click', () => document.getElementById('contact').scrollIntoView());
+        let optimizerItems = [
+            { id: 'SCH-001', name: 'Warehouse Loading', status: 'Optimized', progress: 98, oldTime: '08:00 - 10:30', newTime: '08:00 - 09:45', saved: '45 min' },
+            { id: 'SCH-004', name: 'Final Mile', status: 'Analyzing', progress: 72, oldTime: '16:30 - 19:00', newTime: null, saved: null },
+        ];
 
-             const heroWatchBtn =
-document.getElementById('hero-watch-btn');
-             if(heroWatchBtn) heroWatchBtn.addEventListener('click', () => document.getElementById('technology').scrollIntoView());
+        let staticRisks = [
+            { id: 'RSK-01', title: 'Weather Disruption', level: 'High', prob: 87, conf: 94, desc: 'Delivery DLV-9863 delayed by 4-6 hours', color: 'red' },
+            { id: 'RSK-02', title: 'Traffic Congestion', level: 'Medium', prob: 62, conf: 78, desc: 'Route optimization suggested for DLV-9851', color: 'yellow' }
+        ];
 
-              const footerDemoBtn =
-document.getElementById('footer-demo-btn');
-             if(footerDemoBtn) footerDemoBtn.addEventListener('click', () => document.getElementById('contact').scrollIntoView());
+        // --- 2. Initialize App ---
+        document.addEventListener('DOMContentLoaded', () => {
+            lucide.createIcons(); // Initialize Icons
+            
+            // Navbar Scroll Effect
+            window.addEventListener('scroll', () => {
+                const nav = document.getElementById('navbar');
+                if (window.scrollY > 50) {
+                    nav.classList.add('bg-[#0B0F19]/90', 'backdrop-blur-md', 'border-b', 'border-slate-800');
+                } else {
+                    nav.classList.remove('bg-[#0B0F19]/90', 'backdrop-blur-md', 'border-b', 'border-slate-800');
+                }
+            });
 
+            // Start Render Loops
+            renderOptimizer();
+            renderRisks(staticRisks);
+            renderPipeline();
+            updateROI();
 
-             // --- 1. DATA & CHARTS ---
-             const commonOptions = {
-                 responsive: true,
-                 maintainAspectRatio: false,
-                 cutout: '75%',
-                 plugins: {
-                     legend: { display: false },
-                     tooltip: { enabled: true }
-                 }
-             };
+            // Pipeline Progress Simulation
+            setInterval(() => {
+                if (orchestrated) {
+                    projects = projects.map(p => {
+                        if (p.status === 'Delayed') return p;
+                        p.progress = p.progress >= 100 ? 0 : p.progress + 0.1;
+                        return p;
+                    });
+                    renderPipeline();
+                }
+            }, 2000);
+        });
 
-             const costChartCanvas =
-document.getElementById('costChart');
-             if(costChartCanvas) {
-                 new Chart(costChartCanvas, {
-                     type: 'doughnut',
-                     data: {
-                         labels: ['Logistics Waste', 'Productive Budget'],
-                         datasets: [{ data: [30, 70], backgroundColor: 
-['#ef4444', '#f1f5f9'], borderWidth: 0 }]
-                     },
-                     options: commonOptions
-                 });
-             }
+        // --- 3. DOM Rendering Functions ---
+        function renderOptimizer() {
+            const list = document.getElementById('optimizerList');
+            list.innerHTML = optimizerItems.map(item => `
+                <div class="bg-slate-900/50 p-4 rounded-lg border border-slate-700">
+                    <div class="flex justify-between items-center mb-2">
+                        <span class="text-sm font-semibold text-white">${item.id} ${item.name}</span>
+                        <span class="text-xs px-2 py-1 rounded-full flex items-center gap-1 ${item.status === 'Optimized' ? 'text-emerald-400 bg-emerald-400/10' : 'text-yellow-400 bg-yellow-400/10'}">
+                            ${item.status} ${item.progress}%
+                        </span>
+                    </div>
+                    <div class="flex items-center gap-3 text-sm text-slate-400">
+                        <span class="${item.newTime ? 'line-through' : ''}">${item.oldTime}</span>
+                        ${item.newTime ? `<i data-lucide="arrow-right" class="w-4 h-4"></i> <span class="text-emerald-300">${item.newTime}</span> <span class="ml-auto text-xs font-bold text-emerald-400">Saved: ${item.saved}</span>` : ''}
+                    </div>
+                </div>
+            `).join('');
+            lucide.createIcons();
+        }
 
-             const materialChartCanvas = document.getElementById('materialChart');
-             if(materialChartCanvas) {
-                 new Chart(materialChartCanvas, {
-                     type: 'doughnut',
-                     data: {
-                         labels: ['Late/Incorrect', 'On-time'],
-                         datasets: [{ data: [20, 80], backgroundColor: 
-['#f97316', '#f1f5f9'], borderWidth: 0 }]
-                     },
-                     options: commonOptions
-                 });
-             }
+        function renderRisks(risks, isResolved = false) {
+            const list = document.getElementById('riskList');
+            list.innerHTML = risks.map(risk => {
+                const c = isResolved ? 'emerald' : (risk.color || (risk.level === 'High' ? 'red' : 'yellow'));
+                return `
+                <div class="bg-${c}-500/5 border border-${c}-500/20 p-3 rounded-lg flex gap-3">
+                    <div class="mt-1"><i data-lucide="alert-triangle" class="w-5 h-5 text-${c}-400"></i></div>
+                    <div class="flex-1">
+                        <div class="flex justify-between">
+                            <span class="text-sm font-bold text-${c}-100">${risk.title} <span class="text-slate-500 text-xs font-normal">${risk.id}</span></span>
+                            <span class="text-xs font-bold text-${c}-400">${isResolved ? 'Resolved' : risk.level}</span>
+                        </div>
+                        <p class="text-xs text-slate-400 mt-1 mb-2">${risk.desc || risk.description}</p>
+                        ${!isResolved && risk.prob ? `
+                        <div class="grid grid-cols-2 gap-4 text-xs">
+                            <div><span class="text-slate-500">Probability</span><div class="h-1.5 w-full bg-slate-800 rounded-full mt-1"><div class="h-full bg-${c}-400 rounded-full" style="width:${risk.prob || risk.probability}%"></div></div></div>
+                        </div>` : ''}
+                    </div>
+                </div>
+            `}).join('');
+            lucide.createIcons();
+        }
 
-             const timeChartCanvas =
-document.getElementById('timeChart');
-             if(timeChartCanvas) {
-                 new Chart(timeChartCanvas, {
-                     type: 'doughnut',
-                     data: {
-                         labels: ['Waiting Time', 'Productive Work'],
-                         datasets: [{ data: [20, 80], backgroundColor: 
-['#eab308', '#f1f5f9'], borderWidth: 0 }]
-                     },
-                     options: commonOptions
-                 });
-             }
+        function renderPipeline() {
+            const list = document.getElementById('pipelineList');
+            list.innerHTML = projects.map(proj => {
+                const colors = { emerald: 'bg-emerald-500 text-emerald-400', cyan: 'bg-cyan-500 text-cyan-400', purple: 'bg-purple-500 text-purple-400', red: 'bg-red-500 text-red-400' };
+                const c = colors[proj.color];
+                return `
+                <div class="p-5 hover:bg-white/[0.02] transition-colors flex flex-col md:flex-row items-center gap-6">
+                    <div class="flex items-center gap-4 w-full md:w-1/3">
+                        <div class="w-12 h-12 rounded-xl flex items-center justify-center font-black text-white ${c.split(' ')[0]} shadow-lg">${proj.abbr}</div>
+                        <div>
+                            <h4 class="text-white font-bold text-lg leading-tight">${proj.name}</h4>
+                            <p class="text-slate-400 text-xs flex items-center gap-1 mt-1"><i data-lucide="map" class="w-3 h-3"></i> ${proj.location}</p>
+                        </div>
+                    </div>
+                    <div class="w-full md:w-1/3">
+                        <p class="text-slate-500 text-[10px] uppercase font-bold tracking-wider mb-1">Phase</p>
+                        <p class="text-slate-200 font-medium text-sm mb-2">${proj.phase}</p>
+                        <span class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-md text-[10px] font-bold uppercase tracking-wider ${proj.status === 'Delayed' ? 'bg-red-500/20 text-red-400 border border-red-500/30' : 'bg-slate-800 text-slate-300 border border-slate-700'}">
+                            ${proj.status}
+                        </span>
+                    </div>
+                    <div class="w-full md:w-1/3">
+                        <div class="flex justify-between items-end mb-2">
+                            <span class="text-slate-500 text-[10px] uppercase font-bold">Progress</span>
+                            <span class="${c.split(' ')[1]} font-black text-xl leading-none">${Math.floor(proj.progress)}%</span>
+                        </div>
+                        <div class="w-full h-2 bg-slate-800 rounded-full overflow-hidden">
+                            <div class="h-full rounded-full ${c.split(' ')[0]} transition-all duration-300" style="width: ${proj.progress}%"></div>
+                        </div>
+                    </div>
+                </div>
+            `}).join('');
+            lucide.createIcons();
+        }
 
-             // ROI Chart
-             const roiCtxCanvas = document.getElementById('roiChart');
-             if(roiCtxCanvas) {
-                 const roiCtx = roiCtxCanvas.getContext('2d');
-                 let roiChart = new Chart(roiCtx, {
-                     type: 'bar',
-                     data: {
-                         labels: ['Traditional', 'Syncra AI'],
-                         datasets: [{
-                             label: 'Logistics Costs (€M)',
-                             data: [30, 24],
-                             backgroundColor: ['#e2e8f0', '#9333ea'],
-                             borderRadius: 20
-                         }]
-                     },
-                     options: {
-                         responsive: true,
-                         maintainAspectRatio: false,
-                         scales: {
-                             y: { beginAtZero: true, grid: { display: 
-false }, ticks: { display: false } },
-                             x: { grid: { display: false } }
-                         },
-                         plugins: { legend: { display: false } }
-                     }
-                 });
+        // --- 4. Logic Handlers ---
+        function updateROI() {
+            budget = document.getElementById('budgetRange').value;
+            const savings = (budget * 0.06).toFixed(1);
+            const cost = (budget * 0.005).toFixed(2);
+            const net = (savings - cost).toFixed(1);
+            const labor = Math.max(1, Math.floor(budget / 10));
 
-                 const slider = document.getElementById('roi-slider');
-                 const valueDisplay =
-document.getElementById('roi-value-display');
-                 const savingDisplay =
-document.getElementById('saving-display');
+            document.getElementById('budgetText').innerText = `€${budget}`;
+            document.getElementById('grossSavings').innerText = `€${savings}M`;
+            document.getElementById('saasCost').innerText = `€${cost}M`;
+            document.getElementById('laborRed').innerText = `~${labor} roles`;
+            document.getElementById('netBenefit').innerText = `€${net}M`;
+        }
 
-                 if (slider) {
-                     slider.addEventListener('input', function() {
-                         const val = parseInt(this.value);
-                         valueDisplay.innerText = val;
-                         const traditionalLogistics = val * 0.3;
-                         const syncraLogistics = traditionalLogistics * 0.8;
-                         const savings = traditionalLogistics - syncraLogistics;
-                         savingDisplay.innerText = savings.toFixed(1);
-                         roiChart.data.datasets[0].data = [traditionalLogistics, syncraLogistics];
-                         roiChart.update();
-                     });
+        function optimizeSchedule() {
+            optimizerItems = optimizerItems.map(item => ({...item, status: 'Optimized', progress: 100, newTime: item.newTime || '16:30 - 18:15', saved: item.saved || '45 min'}));
+            renderOptimizer();
+        }
 
-                     // Trigger initial calculation
-                     slider.dispatchEvent(new Event('input'));
-                 }
-             }
+        function optimizePipeline() {
+            orchestrated = true;
+            projects = projects.map(p => ({...p, status: 'In Progress', color: p.color === 'red' ? 'emerald' : p.color}));
+            renderPipeline();
+        }
 
-             // --- 2. HEADER PARTICLE NETWORK (NEW) ---
-             const heroCanvas =
-document.getElementById('hero-particles');
-             if (heroCanvas) {
-                 const heroCtx = heroCanvas.getContext('2d');
-                 let heroParticles = [];
+        function resetAll() {
+            orchestrated = false;
+            // Reset to initial
+            projects[3] = { id: 4, abbr: 'BT', name: 'BuildTech', location: 'Sector 4', progress: 28, status: 'Delayed', phase: 'Foundation', color: 'red' };
+            optimizerItems[1] = { id: 'SCH-004', name: 'Final Mile', status: 'Analyzing', progress: 72, oldTime: '16:30 - 19:00', newTime: null, saved: null };
+            renderPipeline();
+            renderOptimizer();
+        }
 
-                 function initHeroParticles() {
-                     heroCanvas.width = window.innerWidth;
-                     heroCanvas.height = window.innerHeight;
-                     heroParticles = [];
+        // --- 5. Gemini API Simulation ---
+        async function simulateRisk() {
+            const input = document.getElementById('scenarioInput');
+            const errorText = document.getElementById('apiError');
+            const btn = document.getElementById('simulateBtn');
+            
+            if (!input.value.trim()) return;
+            if (!API_KEY) {
+                // Mock response if no API Key
+                errorText.classList.add('hidden');
+                btn.innerHTML = `<div class="w-4 h-4 border-2 border-white/20 border-t-white rounded-full animate-spin"></div>`;
+                setTimeout(() => {
+                    renderRisks([{ id: 'AI-GEN-01', title: 'Schedule Impact Detected', level: 'High', prob: 92, desc: `Analysis complete for: "${input.value}". Immediate mitigation required.`, color: 'red' }]);
+                    document.getElementById('resetRiskBtn').classList.remove('hidden');
+                    btn.innerHTML = `<i data-lucide="sparkles" class="w-4 h-4"></i> Simulate`;
+                    lucide.createIcons();
+                }, 1500);
+                return;
+            }
 
-                     // Create particles
-                     for(let i = 0; i < 80; i++) {
-                         heroParticles.push({
-                             x: Math.random() * heroCanvas.width,
-                             y: Math.random() * heroCanvas.height,
-                             vx: (Math.random() - 0.5) * 0.5,
-                             vy: (Math.random() - 0.5) * 0.5,
-                             size: Math.random() * 2,
-                             color: 'rgba(147, 51, 234, 0.5)' // Purple tint
-                         });
-                     }
-                 }
+            // Actual API Call (Hidden in this demo unless key is provided)
+            btn.innerHTML = `<div class="w-4 h-4 border-2 border-white/20 border-t-white rounded-full animate-spin"></div>`;
+            try {
+                const response = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent?key=${API_KEY}`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        contents: [{ parts: [{ text: `Analyze this construction disruption: "${input.value}". Provide 2 risks as a JSON array with fields: id, title, level (High/Medium), description, probability (10-99).` }] }],
+                        generationConfig: { responseMimeType: "application/json" }
+                    })
+                });
+                const data = await response.json();
+                const text = data.candidates[0].content.parts[0].text;
+                renderRisks(JSON.parse(text));
+                document.getElementById('resetRiskBtn').classList.remove('hidden');
+            } catch (err) {
+                errorText.innerText = "Simulation failed. Check API Key or try again.";
+                errorText.classList.remove('hidden');
+            }
+            btn.innerHTML = `<i data-lucide="sparkles" class="w-4 h-4"></i> Simulate`;
+            lucide.createIcons();
+        }
 
-                 function drawHeroParticles() {
-                     heroCtx.clearRect(0, 0, heroCanvas.width, heroCanvas.height);
+        function resetSimulator() {
+            document.getElementById('scenarioInput').value = '';
+            document.getElementById('resetRiskBtn').classList.add('hidden');
+            renderRisks(staticRisks);
+        }
 
-                     heroParticles.forEach((p, index) => {
-                         p.x += p.vx;
-                         p.y += p.vy;
+        // --- 6. UI Utils & Modals ---
+        function toggleModal(id) {
+            const modal = document.getElementById(id);
+            modal.classList.toggle('hidden');
+        }
 
-                         // Bounce
-                         if(p.x < 0 || p.x > heroCanvas.width) p.vx *= -1;
-                         if(p.y < 0 || p.y > heroCanvas.height) p.vy *= -1;
+        async function handleDemoSubmit(e) {
+            e.preventDefault();
+            const btn = e.target.querySelector('button[type="submit"]');
+            const originalContent = btn.innerHTML;
+            btn.innerHTML = `<div class="w-5 h-5 border-2 border-white/20 border-t-white rounded-full animate-spin"></div>`;
 
-                         // Draw Particle
-                         heroCtx.beginPath();
-                         heroCtx.arc(p.x, p.y, p.size, 0, Math.PI * 2);
-                         heroCtx.fillStyle = p.color;
-                         heroCtx.fill();
+            const name = document.getElementById('demoName').value;
+            const email = document.getElementById('demoEmail').value;
 
-                         // Connections
-                         heroParticles.forEach((p2, j) => {
-                             if (index === j) return;
-                             const dx = p.x - p2.x;
-                             const dy = p.y - p2.y;
-                             const dist = Math.sqrt(dx*dx + dy*dy);
+            try {
+                await fetch("https://formsubmit.co/ajax/hello@syncracloud.com", {
+                    method: "POST",
+                    headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
+                    body: JSON.stringify({
+                        _subject: `New Demo Request from ${name}`,
+                        Name: name,
+                        Email: email,
+                        _replyto: email
+                    })
+                });
+                alert("Demo request received! Our team will contact you shortly.");
+                toggleModal('demoModal');
+                e.target.reset();
+            } catch (error) {
+                alert("There was an error sending your request. Please try again or email us directly at hello@syncracloud.com.");
+            } finally {
+                btn.innerHTML = originalContent;
+            }
+        }
 
-                             if(dist < 150) {
-                                 heroCtx.beginPath();
-                                 heroCtx.strokeStyle = `rgba(147, 51, 234, ${0.15 - dist/1000})`;
-                                 heroCtx.lineWidth = 0.5;
-                                 heroCtx.moveTo(p.x, p.y);
-                                 heroCtx.lineTo(p2.x, p2.y);
-                                 heroCtx.stroke();
-                             }
-                         });
-                     });
-                     requestAnimationFrame(drawHeroParticles);
-                 }
+        function handleGeneratePDF(e) {
+            e.preventDefault();
+            const btn = document.getElementById('pdfBtn');
+            const originalContent = btn.innerHTML;
+            btn.innerHTML = `<div class="w-5 h-5 border-2 border-white/20 border-t-white rounded-full animate-spin"></div>`;
+            
+            // Populate template data
+            document.getElementById('pdfDate').innerText = new Date().toLocaleDateString();
+            
+            const name = document.getElementById('pdfName').value;
+            const company = document.getElementById('pdfCompany').value;
+            const email = document.getElementById('pdfEmail').value;
+            
+            document.getElementById('pdfRenderName').innerText = name;
+            document.getElementById('pdfRenderCompany').innerText = company;
+            document.getElementById('pdfRenderBudget').innerText = `€${budget} M`;
+            document.getElementById('pdfRenderNet').innerText = document.getElementById('netBenefit').innerText;
 
-                 // Window resize handlers
-                 window.addEventListener('resize', () => {
-                     initHeroParticles();
-                 });
+            // Send lead capture email silently in the background
+            fetch("https://formsubmit.co/ajax/hello@syncracloud.com", {
+                method: "POST",
+                headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
+                body: JSON.stringify({
+                    _subject: `New ROI Report Generated for ${company}`,
+                    Name: name,
+                    Company: company,
+                    Email: email,
+                    Budget: `€${budget}M`,
+                    Net_Benefit: document.getElementById('netBenefit').innerText,
+                    _replyto: email
+                })
+            }).catch(console.error);
 
-                 initHeroParticles();
-                 drawHeroParticles();
-             }
+            const element = document.getElementById('pdf-report-template');
+            element.classList.remove('hidden');
+            element.style.position = 'fixed';
+            element.style.top = '0';
+            element.style.zIndex = '-100';
 
-             // --- 3. TECHNOLOGY SECTION SIMULATION (HEART) ---
-             const techCanvas =
-document.getElementById('technology-canvas');
-             if (techCanvas) {
-                 const techCtx = techCanvas.getContext('2d');
-                 const simBtn = document.getElementById('sim-btn');
-                 const simStatus = document.getElementById('sim-status');
+            const opt = {
+                margin: [0.5, 0, 0.5, 0],
+                filename: `Syncra_ROI_${company}.pdf`,
+                image: { type: 'jpeg', quality: 0.98 },
+                html2canvas: { scale: 2, useCORS: true, backgroundColor: '#ffffff', windowWidth: 800 },
+                jsPDF: { unit: 'in', format: 'letter', orientation: 'portrait' }
+            };
 
-                 let techParticles = [];
-                 let isOrchestrated = false;
-                 const particleCount = 100;
-
-                 function initTechSimulation() {
-                     if (!techCanvas) return;
-                     techCanvas.width = techCanvas.offsetWidth;
-                     techCanvas.height = techCanvas.offsetHeight;
-                     techParticles = [];
-                     for (let i = 0; i < particleCount; i++) {
-                         techParticles.push({
-                             x: Math.random() * techCanvas.width,
-                             y: Math.random() * techCanvas.height,
-                             targetX: Math.random() * techCanvas.width,
-                             targetY: Math.random() * techCanvas.height,
-                             size: 1.5 + Math.random() * 3,
-                             color: '#cbd5e1',
-                             vx: (Math.random() - 0.5) * 4,
-                             vy: (Math.random() - 0.5) * 4
-                         });
-                     }
-                 }
-
-                 function drawTechSimulation() {
-                     if (!techCtx) return;
-                     techCtx.clearRect(0, 0, techCanvas.width, techCanvas.height);
-
-                     const centerX = techCanvas.width / 2;
-                     const centerY = techCanvas.height / 2;
-                     const scale = Math.min(techCanvas.width,
-techCanvas.height) / 40;
-
-                     techParticles.forEach((p, i) => {
-                         if (isOrchestrated) {
-                             // Heart formula constellation
-                             const t = (i / particleCount) * Math.PI * 2;
-                             const hx = 16 * Math.pow(Math.sin(t), 3);
-                             const hy = -(13 * Math.cos(t) - 5 *
-Math.cos(2*t) - 2 * Math.cos(3*t) - Math.cos(4*t));
-
-                             p.targetX = centerX + hx * scale;
-                             p.targetY = centerY + hy * scale;
-                             p.color = '#a855f7';
-
-                             // Snappier easing
-                             p.x += (p.targetX - p.x) * 0.18;
-                             p.y += (p.targetY - p.y) * 0.18;
-                         } else {
-                             p.x += p.vx;
-                             p.y += p.vy;
-                             if (p.x < 0 || p.x > techCanvas.width) p.vx *= -1;
-                             if (p.y < 0 || p.y > techCanvas.height) p.vy *= -1;
-                             p.color = '#cbd5e1';
-                         }
-
-                         // Draw constellation lines
-                         techParticles.forEach((p2, j) => {
-                             const dist = Math.sqrt((p.x - p2.x)**2 + (p.y - p2.y)**2);
-                             const maxDist = isOrchestrated ? 100 : 70;
-                             if (dist < maxDist) {
-                                 techCtx.beginPath();
-                                 techCtx.strokeStyle = isOrchestrated ? 
-`rgba(168, 85, 247, ${0.4 - dist/maxDist})` : `rgba(203, 213, 225,
-${0.12 - dist/maxDist})`;
-                                 techCtx.lineWidth = 0.8;
-                                 techCtx.moveTo(p.x, p.y);
-                                 techCtx.lineTo(p2.x, p2.y);
-                                 techCtx.stroke();
-                             }
-                         });
-
-                         techCtx.beginPath();
-                         techCtx.arc(p.x, p.y, p.size, 0, Math.PI * 2);
-                         techCtx.fillStyle = p.color;
-                         techCtx.fill();
-
-                         if (isOrchestrated) {
-                             techCtx.shadowBlur = 15;
-                             techCtx.shadowColor = "#a855f7";
-                         } else {
-                             techCtx.shadowBlur = 0;
-                         }
-                     });
-                     requestAnimationFrame(drawTechSimulation);
-                 }
-
-                 if (simBtn) {
-                     simBtn.addEventListener('click', () => {
-                         isOrchestrated = !isOrchestrated;
-                         simStatus.innerText = isOrchestrated ? 
-"OPTIMIZED FLOW" : "CHAOTIC FLOW";
-                         simStatus.className = isOrchestrated ? "text-xl font-black italic text-purple-500 uppercase tracking-tighter" : "text-xl font-black italic text-white uppercase tracking-tighter";
-                         simBtn.innerHTML = isOrchestrated ? 'Reset to Chaos <i class="fa-solid fa-rotate-left ml-3"></i>' : 'Activate Orchestration <i class="fa-solid fa-bolt-lightning ml-3"></i>';
-                         simBtn.classList.toggle('bg-purple-600');
-                         simBtn.classList.toggle('bg-slate-700');
-                     });
-                 }
-
-                 // Window resize handlers
-                 window.addEventListener('resize', () => {
-                     initTechSimulation();
-                 });
-
-                 initTechSimulation();
-                 drawTechSimulation();
-             }
-         });
-     </script>
+            // Needs slight timeout for DOM to render before capturing
+            setTimeout(() => {
+                window.html2pdf().set(opt).from(element).save().then(() => {
+                    element.classList.add('hidden');
+                    element.style.position = '';
+                    toggleModal('pdfModal');
+                    e.target.reset();
+                    btn.innerHTML = originalContent;
+                    lucide.createIcons();
+                });
+            }, 500);
+        }
+    </script>
 </body>
 </html>
